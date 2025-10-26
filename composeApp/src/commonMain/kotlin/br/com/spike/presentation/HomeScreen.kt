@@ -1,4 +1,4 @@
-package br.com.spike.home
+package br.com.spike.presentation
 
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.core.screen.Screen

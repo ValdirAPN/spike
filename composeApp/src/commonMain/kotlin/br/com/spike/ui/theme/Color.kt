@@ -14,6 +14,7 @@ data class SpikeColorScheme(
     val contentHigh: Color,
     val contentLow: Color,
     val contentOnColorHigh: Color,
+    val contentBrand: Color,
     // Background
     val backgroundSurface: Color,
     val backgroundBody: Color,
@@ -25,6 +26,7 @@ val darkColors = SpikeColorScheme(
     contentHigh = White,
     contentLow = White.copy(alpha = 0.5f),
     contentOnColorHigh = Black950,
+    contentBrand = Green400,
     backgroundSurface = Black950,
     backgroundBody = Black800,
     backgroundBrand = Green400,

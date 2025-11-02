@@ -29,7 +29,21 @@ fun spikeTypography() = Typography(
     bodyMedium = TextStyle(
         fontFamily = outfitFontFamily(),
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 16.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 0.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = outfitFontFamily(),
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 0.sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = outfitFontFamily(),
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
         lineHeight = 18.sp,
         letterSpacing = 0.sp
     ),

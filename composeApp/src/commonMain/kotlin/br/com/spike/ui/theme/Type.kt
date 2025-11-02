@@ -47,6 +47,20 @@ fun spikeTypography() = Typography(
         lineHeight = 18.sp,
         letterSpacing = 0.sp
     ),
+    labelSmall = TextStyle(
+        fontFamily = outfitFontFamily(),
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 14.sp,
+        letterSpacing = 0.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = outfitFontFamily(),
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.sp
+    ),
 )
 
 internal val LocalSpikeTypographyProvider =

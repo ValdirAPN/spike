@@ -11,9 +11,11 @@ import br.com.spike.ui.theme.SpikeTheme
 
 @Composable
 fun SpikeScreen(
+    topBar: @Composable (() -> Unit) = {},
     content: @Composable ColumnScope.() -> Unit
 ) {
     Scaffold(
+        topBar = topBar,
         containerColor = SpikeTheme.colors.backgroundSurface,
         contentColor = SpikeTheme.colors.contentHigh
     ) { innerPadding ->

@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import spike.composeapp.generated.resources.Res
+import spike.composeapp.generated.resources.arrow_back
 import spike.composeapp.generated.resources.bell
 import spike.composeapp.generated.resources.compass_filled
 import spike.composeapp.generated.resources.empty
@@ -32,6 +33,7 @@ enum class SpikeIcons(val res: DrawableResource) {
     User(res = Res.drawable.user),
     Bell(res = Res.drawable.bell),
     Empty(res = Res.drawable.empty),
+    ArrowBack(res = Res.drawable.arrow_back),
     CompassFilled(res = Res.drawable.compass_filled),
     PlusFilled(res = Res.drawable.plus_filled),
 }

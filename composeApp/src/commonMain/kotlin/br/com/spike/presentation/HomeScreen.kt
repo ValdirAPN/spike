@@ -22,20 +22,29 @@ import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeText
 import br.com.spike.ui.theme.SpikeTheme
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 object HomeScreen : Screen {
     @Composable
     override fun Content() {
-        HomeContent()
+        val navigator = LocalNavigator.currentOrThrow
+        HomeContent(
+            onClickCreateMatchButton = { navigator.push(MatchForm) }
+        )
     }
 }
 
 @Composable
-private fun HomeContent() {
+private fun HomeContent(
+    onClickCreateMatchButton: () -> Unit
+) {
     SpikeScreen {
         Header()
-        HomeActions()
+        HomeActions(
+            onClickCreateMatchButton = onClickCreateMatchButton
+        )
         NextMatches()
     }
 }
@@ -64,7 +73,9 @@ private fun Header() {
 }
 
 @Composable
-private fun HomeActions() {
+private fun HomeActions(
+    onClickCreateMatchButton: () -> Unit,
+) {
     Row(
         modifier = Modifier.padding(
             horizontal = 16.dp,
@@ -82,7 +93,7 @@ private fun HomeActions() {
             text = "Criar partida",
             icon = SpikeIcons.PlusFilled,
             highlight = true,
-            onClick = {}
+            onClick = onClickCreateMatchButton
         )
     }
 }
@@ -153,6 +164,8 @@ private fun ColumnScope.NoMatches() {
 @Preview
 private fun HomeContentPreview() {
     SpikeTheme {
-        HomeContent()
+        HomeContent(
+            onClickCreateMatchButton = {}
+        )
     }
 }

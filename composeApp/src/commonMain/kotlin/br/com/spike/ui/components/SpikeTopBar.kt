@@ -9,9 +9,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import br.com.spike.ui.theme.SpikeTheme
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 @Composable
-fun SpikeTopBar(title: String) {
+fun SpikeTopBar(
+    title: String,
+    navigator: Navigator = LocalNavigator.currentOrThrow
+) {
     Box(
         modifier = Modifier
             .statusBarsPadding()
@@ -20,7 +26,7 @@ fun SpikeTopBar(title: String) {
     ) {
         SpikeIconButton(
             icon = SpikeIcons.ArrowBack,
-            action = {},
+            action = navigator::pop,
         )
         SpikeText(
             text = title,

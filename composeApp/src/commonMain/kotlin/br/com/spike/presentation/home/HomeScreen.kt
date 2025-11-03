@@ -1,36 +1,53 @@
-package br.com.spike.presentation
+package br.com.spike.presentation.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.spike.domain.model.Match
+import br.com.spike.presentation.MatchForm
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
 import br.com.spike.ui.components.SpikeIcons
+import br.com.spike.ui.components.SpikeMatchCard
 import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeText
 import br.com.spike.ui.theme.SpikeTheme
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import coil3.compose.AsyncImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 object HomeScreen : Screen {
     @Composable
     override fun Content() {
+
         val navigator = LocalNavigator.currentOrThrow
+        val screenModel = rememberScreenModel { HomeScreenModel() }
+        val state by screenModel.state.collectAsStateWithLifecycle()
+
         HomeContent(
+            state = state,
             onClickCreateMatchButton = { navigator.push(MatchForm) }
         )
     }
@@ -38,30 +55,41 @@ object HomeScreen : Screen {
 
 @Composable
 private fun HomeContent(
+    state: HomeScreenState,
     onClickCreateMatchButton: () -> Unit
 ) {
     SpikeScreen {
-        Header()
+        Header(state = state)
         HomeActions(
             onClickCreateMatchButton = onClickCreateMatchButton
         )
-        NextMatches()
+        UpcomingMatches(matches = state.upcomingMatches)
     }
 }
 
 @Composable
-private fun Header() {
+private fun Header(state: HomeScreenState) {
     Row(
         modifier = Modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SpikeIconButton(
-            icon = SpikeIcons.User,
-            action = {},
-        )
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = SpikeTheme.colors.backgroundBody,
+            contentColor = SpikeTheme.colors.contentHigh,
+            onClick = { },
+        ) {
+            Box(modifier = Modifier.size(48.dp), contentAlignment = Alignment.Center) {
+                AsyncImage(
+                    model = state.avatarUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+            }
+        }
         SpikeText(
-            text = "Mateus Carlos",
+            text = state.username,
             modifier = Modifier.weight(1f),
             style = SpikeTheme.typography.bodyLarge
         )
@@ -99,13 +127,28 @@ private fun HomeActions(
 }
 
 @Composable
-private fun NextMatches() {
-    Column(modifier = Modifier.padding(16.dp)) {
+private fun UpcomingMatches(
+    matches: List<Match>
+) {
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         SpikeText(
             text = "Próximas Partidas",
             style = SpikeTheme.typography.titleSmall
         )
-        NoMatches()
+        if (matches.isEmpty()) {
+            NoMatches()
+        } else {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(items = matches) { match ->
+                    SpikeMatchCard(match)
+                }
+            }
+        }
     }
 }
 
@@ -165,6 +208,7 @@ private fun ColumnScope.NoMatches() {
 private fun HomeContentPreview() {
     SpikeTheme {
         HomeContent(
+            state = HomeScreenState(),
             onClickCreateMatchButton = {}
         )
     }

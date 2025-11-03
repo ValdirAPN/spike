@@ -17,11 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import br.com.spike.domain.model.Match
+import br.com.spike.domain.model.Player
 import br.com.spike.ui.theme.SpikeTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SpikeMatchCard() {
+fun SpikeMatchCard(match: Match) = with(match) {
     Surface(
         color = SpikeTheme.colors.backgroundBrandVariant,
         contentColor = SpikeTheme.colors.contentHigh,
@@ -32,7 +34,7 @@ fun SpikeMatchCard() {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             SpikeText(
-                text = "Vôlei na Rio Branco".uppercase(),
+                text = title.uppercase(),
                 style = SpikeTheme.typography.titleSmall.copy(fontWeight = FontWeight.Black)
             )
             Column(
@@ -45,7 +47,10 @@ fun SpikeMatchCard() {
                     InfoLabel("Quadra")
                 }
             }
-            Footer()
+            Footer(
+                playersQuantity = players.size,
+                spots = spots,
+            )
         }
     }
 }
@@ -107,11 +112,14 @@ private fun RowScope.InfoLabel(
 }
 
 @Composable
-private fun Footer() {
+private fun Footer(
+    playersQuantity: Int,
+    spots: Int,
+) {
     Row {
-        SpikeText("15", fontWeight = FontWeight.Bold)
+        SpikeText("$playersQuantity", fontWeight = FontWeight.Bold)
         SpikeText(
-            "/18",
+            "/$spots",
             fontWeight = FontWeight.Bold,
             color = SpikeTheme.colors.contentHigh.copy(alpha = .5f)
         )
@@ -121,5 +129,15 @@ private fun Footer() {
 @Composable
 @Preview
 fun SpikeMatchCardPreview() {
-    SpikeTheme { SpikeMatchCard() }
+    SpikeTheme {
+        SpikeMatchCard(
+            match = Match(
+                id = "",
+                title = "Vôlei no Ninho",
+                spots = 18,
+                players = emptyList(),
+                organizer = Player(id = "", name = "Matheus Carlos", avatarUrl = "")
+            )
+        )
+    }
 }

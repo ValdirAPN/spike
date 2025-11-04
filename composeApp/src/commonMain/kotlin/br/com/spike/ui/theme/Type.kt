@@ -26,9 +26,23 @@ fun outfitFontFamily() = FontFamily(
 
 @Composable
 fun spikeTypography() = Typography(
-    bodyMedium = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = outfitFontFamily(),
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Black,
+        fontSize = 24.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.sp,
+    ),
+    titleMedium = TextStyle(
+        fontFamily = outfitFontFamily(),
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 0.sp
+    ),
+    titleSmall = TextStyle(
+        fontFamily = outfitFontFamily(),
+        fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 18.sp,
         letterSpacing = 0.sp
@@ -40,18 +54,18 @@ fun spikeTypography() = Typography(
         lineHeight = 18.sp,
         letterSpacing = 0.sp
     ),
-    titleSmall = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = outfitFontFamily(),
-        fontWeight = FontWeight.Medium,
-        fontSize = 18.sp,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
         lineHeight = 18.sp,
         letterSpacing = 0.sp
     ),
-    labelSmall = TextStyle(
+    bodySmall = TextStyle(
         fontFamily = outfitFontFamily(),
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 14.sp,
+        lineHeight = 18.sp,
         letterSpacing = 0.sp
     ),
     labelMedium = TextStyle(
@@ -59,6 +73,13 @@ fun spikeTypography() = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 16.sp,
+        letterSpacing = 0.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = outfitFontFamily(),
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 14.sp,
         letterSpacing = 0.sp
     ),
 )

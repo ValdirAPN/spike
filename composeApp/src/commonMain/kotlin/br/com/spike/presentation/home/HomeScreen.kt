@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,9 +22,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
+import br.com.spike.presentation.MatchDetails
 import br.com.spike.presentation.MatchForm
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
+import br.com.spike.ui.components.SpikeIconButtonSize
 import br.com.spike.ui.components.SpikeIcons
 import br.com.spike.ui.components.SpikeMatchCard
 import br.com.spike.ui.components.SpikeScreen
@@ -48,7 +49,8 @@ object HomeScreen : Screen {
 
         HomeContent(
             state = state,
-            onClickCreateMatchButton = { navigator.push(MatchForm) }
+            onClickCreateMatchButton = { navigator.push(MatchForm) },
+            onClickMatch = { match -> navigator.push(MatchDetails(match)) }
         )
     }
 }
@@ -56,14 +58,18 @@ object HomeScreen : Screen {
 @Composable
 private fun HomeContent(
     state: HomeScreenState,
-    onClickCreateMatchButton: () -> Unit
+    onClickCreateMatchButton: () -> Unit,
+    onClickMatch: (Match) -> Unit,
 ) {
     SpikeScreen {
         Header(state = state)
         HomeActions(
             onClickCreateMatchButton = onClickCreateMatchButton
         )
-        UpcomingMatches(matches = state.upcomingMatches)
+        UpcomingMatches(
+            matches = state.upcomingMatches,
+            onClickMatch = onClickMatch
+        )
     }
 }
 
@@ -91,11 +97,12 @@ private fun Header(state: HomeScreenState) {
         SpikeText(
             text = state.username,
             modifier = Modifier.weight(1f),
-            style = SpikeTheme.typography.bodyLarge
+            style = SpikeTheme.typography.titleMedium
         )
         SpikeIconButton(
             icon = SpikeIcons.Bell,
             action = {},
+            size = SpikeIconButtonSize.Medium
         )
     }
 }
@@ -128,7 +135,8 @@ private fun HomeActions(
 
 @Composable
 private fun UpcomingMatches(
-    matches: List<Match>
+    matches: List<Match>,
+    onClickMatch: (Match) -> Unit,
 ) {
     Column(
         modifier = Modifier.padding(16.dp),
@@ -145,7 +153,10 @@ private fun UpcomingMatches(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(items = matches) { match ->
-                    SpikeMatchCard(match)
+                    SpikeMatchCard(
+                        match = match,
+                        onClick = { onClickMatch(match) }
+                    )
                 }
             }
         }
@@ -209,7 +220,8 @@ private fun HomeContentPreview() {
     SpikeTheme {
         HomeContent(
             state = HomeScreenState(),
-            onClickCreateMatchButton = {}
+            onClickCreateMatchButton = {},
+            onClickMatch = {}
         )
     }
 }

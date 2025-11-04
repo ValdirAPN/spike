@@ -15,19 +15,29 @@ import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeTextField
 import br.com.spike.ui.components.SpikeTopBar
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 object MatchForm : Screen {
     @Composable
     override fun Content() {
-        MatchFormContent()
+        val navigator = LocalNavigator.currentOrThrow
+        MatchFormContent(
+            onNavigateBack = navigator::pop
+        )
     }
 }
 
 @Composable
-private fun MatchFormContent() {
+private fun MatchFormContent(
+    onNavigateBack: () -> Unit
+) {
     SpikeScreen(
         topBar = {
-            SpikeTopBar(title = "Criar Partida")
+            SpikeTopBar(
+                title = "Criar Partida",
+                onNavigateBack = onNavigateBack
+            )
         }
     ) {
         Column(

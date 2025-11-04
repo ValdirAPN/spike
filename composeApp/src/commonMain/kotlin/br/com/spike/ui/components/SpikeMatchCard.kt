@@ -23,11 +23,12 @@ import br.com.spike.ui.theme.SpikeTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SpikeMatchCard(match: Match) = with(match) {
+fun SpikeMatchCard(match: Match, onClick: () -> Unit) = with(match) {
     Surface(
         color = SpikeTheme.colors.backgroundBrandVariant,
         contentColor = SpikeTheme.colors.contentHigh,
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        onClick = onClick
     ) {
         Column(
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
@@ -137,7 +138,8 @@ fun SpikeMatchCardPreview() {
                 spots = 18,
                 players = emptyList(),
                 organizer = Player(id = "", name = "Matheus Carlos", avatarUrl = "")
-            )
+            ),
+            onClick = {}
         )
     }
 }

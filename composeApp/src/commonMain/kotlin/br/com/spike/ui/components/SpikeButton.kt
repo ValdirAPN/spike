@@ -27,7 +27,7 @@ fun SpikeButton(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp),
+                .height(54.dp),
             contentAlignment = Alignment.Center
         ) {
             SpikeText(

@@ -49,7 +49,7 @@ fun SpikeHorizontalSelector(
                 Box(
                     modifier = Modifier
                         .weight(1f)
-                        .height(52.dp)
+                        .height(50.dp)
                         .clip(RoundedCornerShape(12.dp))
                         .background(color = background)
                         .clickable {

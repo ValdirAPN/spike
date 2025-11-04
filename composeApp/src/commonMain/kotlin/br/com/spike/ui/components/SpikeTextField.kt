@@ -48,7 +48,7 @@ fun SpikeTextField(
         }
         Row(
             modifier = Modifier
-                .height(56.dp)
+                .height(54.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(size = 16.dp))
                 .background(

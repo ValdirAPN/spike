@@ -21,6 +21,7 @@ import spike.composeapp.generated.resources.location_target
 import spike.composeapp.generated.resources.pen
 import spike.composeapp.generated.resources.plus_filled
 import spike.composeapp.generated.resources.share
+import spike.composeapp.generated.resources.signout
 import spike.composeapp.generated.resources.user
 import spike.composeapp.generated.resources.users_four_filled
 
@@ -46,6 +47,7 @@ enum class SpikeIcons(val res: DrawableResource) {
     ArrowBack(res = Res.drawable.arrow_back),
     Pen(res = Res.drawable.pen),
     Share(res = Res.drawable.share),
+    SignOut(res = Res.drawable.signout),
     LocationTarget(res = Res.drawable.location_target),
     UsersFourFilled(res = Res.drawable.users_four_filled),
     CompassFilled(res = Res.drawable.compass_filled),

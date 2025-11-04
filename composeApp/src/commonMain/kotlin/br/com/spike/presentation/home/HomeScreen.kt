@@ -22,9 +22,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
+import br.com.spike.domain.model.Player
 import br.com.spike.presentation.MatchDetails
 import br.com.spike.presentation.MatchExplorer
 import br.com.spike.presentation.MatchForm
+import br.com.spike.presentation.Profile
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
 import br.com.spike.ui.components.SpikeIconButtonSize
@@ -50,6 +52,17 @@ object HomeScreen : Screen {
 
         HomeContent(
             state = state,
+            onClickProfile = {
+                navigator.push(
+                    Profile(
+                        Player(
+                            id = "",
+                            name = state.username,
+                            avatarUrl = state.avatarUrl
+                        )
+                    )
+                )
+            },
             onClickFindMatchButton = { navigator.push(MatchExplorer) },
             onClickCreateMatchButton = { navigator.push(MatchForm) },
             onClickMatch = { match -> navigator.push(MatchDetails(match)) }
@@ -60,12 +73,16 @@ object HomeScreen : Screen {
 @Composable
 private fun HomeContent(
     state: HomeScreenState,
+    onClickProfile: () -> Unit,
     onClickFindMatchButton: () -> Unit,
     onClickCreateMatchButton: () -> Unit,
     onClickMatch: (Match) -> Unit,
 ) {
     SpikeScreen {
-        Header(state = state)
+        Header(
+            state = state,
+            onClickProfile = onClickProfile
+        )
         HomeActions(
             onClickFindMatchButton = onClickFindMatchButton,
             onClickCreateMatchButton = onClickCreateMatchButton
@@ -78,7 +95,10 @@ private fun HomeContent(
 }
 
 @Composable
-private fun Header(state: HomeScreenState) {
+private fun Header(
+    state: HomeScreenState,
+    onClickProfile: () -> Unit,
+) {
     Row(
         modifier = Modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -88,7 +108,7 @@ private fun Header(state: HomeScreenState) {
             shape = RoundedCornerShape(16.dp),
             color = SpikeTheme.colors.backgroundBody,
             contentColor = SpikeTheme.colors.contentHigh,
-            onClick = { },
+            onClick = onClickProfile,
         ) {
             Box(modifier = Modifier.size(48.dp), contentAlignment = Alignment.Center) {
                 AsyncImage(
@@ -225,6 +245,7 @@ private fun HomeContentPreview() {
     SpikeTheme {
         HomeContent(
             state = HomeScreenState(),
+            onClickProfile = {},
             onClickFindMatchButton = {},
             onClickCreateMatchButton = {},
             onClickMatch = {}

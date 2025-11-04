@@ -232,10 +232,10 @@ private fun OrganizerCard(organizer: Player) {
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .clip(RoundedCornerShape(100))
                 .background(
                     SpikeTheme.colors.backgroundSurface.copy(alpha = .2f),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(100)
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -296,10 +296,10 @@ private fun PlayersCard(players: List<Player>) {
                 Box(
                     modifier = Modifier
                         .size(32.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(100))
                         .background(
                             SpikeTheme.colors.backgroundSurface.copy(alpha = .2f),
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(100)
                         ),
                     contentAlignment = Alignment.Center
                 ) {

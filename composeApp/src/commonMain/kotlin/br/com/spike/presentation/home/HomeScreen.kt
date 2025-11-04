@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
 import br.com.spike.presentation.MatchDetails
+import br.com.spike.presentation.MatchExplorer
 import br.com.spike.presentation.MatchForm
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
@@ -49,6 +50,7 @@ object HomeScreen : Screen {
 
         HomeContent(
             state = state,
+            onClickFindMatchButton = { navigator.push(MatchExplorer) },
             onClickCreateMatchButton = { navigator.push(MatchForm) },
             onClickMatch = { match -> navigator.push(MatchDetails(match)) }
         )
@@ -58,12 +60,14 @@ object HomeScreen : Screen {
 @Composable
 private fun HomeContent(
     state: HomeScreenState,
+    onClickFindMatchButton: () -> Unit,
     onClickCreateMatchButton: () -> Unit,
     onClickMatch: (Match) -> Unit,
 ) {
     SpikeScreen {
         Header(state = state)
         HomeActions(
+            onClickFindMatchButton = onClickFindMatchButton,
             onClickCreateMatchButton = onClickCreateMatchButton
         )
         UpcomingMatches(
@@ -109,6 +113,7 @@ private fun Header(state: HomeScreenState) {
 
 @Composable
 private fun HomeActions(
+    onClickFindMatchButton: () -> Unit,
     onClickCreateMatchButton: () -> Unit,
 ) {
     Row(
@@ -122,7 +127,7 @@ private fun HomeActions(
             text = "Buscar partidas",
             icon = SpikeIcons.CompassFilled,
             highlight = false,
-            onClick = {}
+            onClick = onClickFindMatchButton
         )
         HomeActionButton(
             text = "Criar partida",
@@ -220,6 +225,7 @@ private fun HomeContentPreview() {
     SpikeTheme {
         HomeContent(
             state = HomeScreenState(),
+            onClickFindMatchButton = {},
             onClickCreateMatchButton = {},
             onClickMatch = {}
         )

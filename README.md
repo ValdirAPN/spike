@@ -1,3 +1,23 @@
+### 🏐 Spike: Volleyball Match Finder
+Spike is a cross-platform mobile application designed to connect volleyball players, making it easy to create and find local matches. Whether you're looking for a casual game or a serious pickup match, Spike helps you get on the court!
+
+### ✨ Features
+Create Matches: Easily set up a new match with details like location, time, skill level, and required number of players.
+Find Matches: Discover nearby matches using a map view or a filterable list.
+Join/Manage Matches: Quickly join open matches and manage the matches you've created.
+
+### 💻 Tech Stack
+Spike is built using cutting-edge, modern technologies to ensure performance, maintainability, and a beautiful user interface.
+| Category | Technology | Description |
+| :--- | :--- | :--- |
+| **Primary Language** | **Kotlin** | The primary language for all business logic and cross-platform modules. |
+| **Framework** | **Kotlin Multiplatform (KMP)** | Used to share common code between the Android and iOS platforms. |
+| **UI Framework** | **Compose Multiplatform** | The modern declarative UI toolkit, allowing a single UI to be rendered natively on both mobile platforms. |
+| **Android UI** | **Compose for Android** | The native UI implementation on the Android platform. |
+| **iOS UI** | **Compose for iOS** | The native UI implementation on the iOS platform. |
+| **State Management** | *MVVM/Kotlin Flows* | Handles complex application state in a predictable and reactive manner. |
+
+## 🚀 Getting Started
 This is a Kotlin Multiplatform project targeting Android, iOS.
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.

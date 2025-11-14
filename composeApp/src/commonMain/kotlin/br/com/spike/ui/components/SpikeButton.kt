@@ -1,8 +1,12 @@
 package br.com.spike.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -27,14 +31,20 @@ fun SpikeButton(
         color = color,
         shape = RoundedCornerShape(16.dp),
         modifier = modifier,
-        onClick = action
+        onClick = action,
+        enabled = state == SpikeButtonState.Default
     ) {
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(54.dp),
-            contentAlignment = Alignment.Center
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            if (state == SpikeButtonState.Loading) {
+                SpikeProgress(size = SpikeProgressSize.Small)
+                Spacer(Modifier.size(8.dp))
+            }
             SpikeText(
                 text = label,
                 style = SpikeTheme.typography.labelMedium

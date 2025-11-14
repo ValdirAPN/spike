@@ -65,7 +65,8 @@ private fun LoginScreenContent(
             ) {
                 SpikeButton(
                     label = "Entrar",
-                    action = onClickLogin
+                    action = onClickLogin,
+                    state = buttonState
                 )
                 SpikeButton(
                     label = "Criar nova conta",

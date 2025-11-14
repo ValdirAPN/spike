@@ -1,5 +1,5 @@
 package br.com.spike.data
 
-actual fun buildFirebaseAuthProvider(): FirebaseAuthProvider {
+actual fun buildFirebaseAuthentication(): FirebaseAuthentication {
     TODO("Not yet implemented")
 }

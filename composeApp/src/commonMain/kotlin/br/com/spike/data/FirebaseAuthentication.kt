@@ -1,8 +1,10 @@
 package br.com.spike.data
 
-expect fun buildFirebaseAuthProvider(): FirebaseAuthProvider
+import br.com.spike.data.model.FirebaseUser
 
-interface FirebaseAuthProvider {
+expect fun buildFirebaseAuthentication(): FirebaseAuthentication
+
+interface FirebaseAuthentication {
     fun currentUser(): FirebaseUser?
     suspend fun signUp(email: String, password: String): String?
     suspend fun signIn(email: String, password: String): String?

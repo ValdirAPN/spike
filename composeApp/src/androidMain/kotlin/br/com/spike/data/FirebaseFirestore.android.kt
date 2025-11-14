@@ -1,5 +1,6 @@
 package br.com.spike.data
 
+import br.com.spike.data.model.FirebaseObject
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await

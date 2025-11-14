@@ -1,13 +1,14 @@
 package br.com.spike.data
 
+import br.com.spike.data.model.FirebaseUser
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.tasks.await
 
-actual fun buildFirebaseAuthProvider(): FirebaseAuthProvider =
-    AndroidFirebaseAuthProvider
+actual fun buildFirebaseAuthentication(): FirebaseAuthentication =
+    AndroidFirebaseAuthentication
 
-private object AndroidFirebaseAuthProvider : FirebaseAuthProvider {
+private object AndroidFirebaseAuthentication : FirebaseAuthentication {
     override fun currentUser(): FirebaseUser? {
         val firebaseUser = Firebase.auth.currentUser ?: return null
         return FirebaseUser(

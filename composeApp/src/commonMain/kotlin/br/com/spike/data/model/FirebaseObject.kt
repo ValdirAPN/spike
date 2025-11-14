@@ -1,4 +1,4 @@
-package br.com.spike.data
+package br.com.spike.data.model
 
 data class FirebaseObject<T>(
     val id: String,

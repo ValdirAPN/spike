@@ -77,7 +77,7 @@ private fun MatchFormContent(
             )
             Spacer(Modifier.weight(1f))
             SpikeButton(
-                text = "Criar",
+                label = "Criar",
                 action = {},
                 modifier = Modifier.padding(16.dp)
             )

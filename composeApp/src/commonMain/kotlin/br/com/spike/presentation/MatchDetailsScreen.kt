@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.com.spike.domain.model.Match
-import br.com.spike.domain.model.Player
+import br.com.spike.domain.model.User
 import br.com.spike.ui.components.SpikeButton
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIcons
@@ -78,7 +78,7 @@ private fun MatchDetailsContent(
                 LocationCard()
                 Attributes()
                 OrganizerCard(organizer = match.organizer)
-                PlayersCard(players = match.players)
+                PlayersCard(users = match.users)
             }
             Box(Modifier.padding(all = 16.dp)) {
                 SpikeButton("Participar", action = {})
@@ -216,7 +216,7 @@ private fun RowScope.AttributeCard(label: String, value: String) {
 }
 
 @Composable
-private fun OrganizerCard(organizer: Player) {
+private fun OrganizerCard(organizer: User) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -263,7 +263,7 @@ private fun OrganizerCard(organizer: Player) {
 }
 
 @Composable
-private fun PlayersCard(players: List<Player>) {
+private fun PlayersCard(users: List<User>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -287,7 +287,7 @@ private fun PlayersCard(players: List<Player>) {
                 style = SpikeTheme.typography.labelSmall.copy(fontWeight = FontWeight.Black)
             )
         }
-        players.forEach { player ->
+        users.forEach { player ->
             Row(
                 modifier = Modifier.padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -326,8 +326,8 @@ private fun MatchDetailsContentPreview() {
                 id = "",
                 title = "Vôlei no Ninho",
                 spots = 18,
-                players = emptyList(),
-                organizer = Player(id = "", name = "Matheus Carlos", avatarUrl = "")
+                users = emptyList(),
+                organizer = User(id = "", name = "Matheus Carlos", avatarUrl = "")
             ),
             onNavigateBack = {}
         )

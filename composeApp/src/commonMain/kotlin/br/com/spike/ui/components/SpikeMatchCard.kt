@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.spike.domain.model.Match
-import br.com.spike.domain.model.Player
+import br.com.spike.domain.model.User
 import br.com.spike.ui.theme.SpikeTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -49,7 +49,7 @@ fun SpikeMatchCard(match: Match, onClick: () -> Unit) = with(match) {
                 }
             }
             Footer(
-                playersQuantity = players.size,
+                playersQuantity = users.size,
                 spots = spots,
             )
         }
@@ -136,8 +136,8 @@ fun SpikeMatchCardPreview() {
                 id = "",
                 title = "Vôlei no Ninho",
                 spots = 18,
-                players = emptyList(),
-                organizer = Player(id = "", name = "Matheus Carlos", avatarUrl = "")
+                users = emptyList(),
+                organizer = User(id = "", name = "Matheus Carlos", avatarUrl = "")
             ),
             onClick = {}
         )

@@ -1,5 +1,6 @@
 package br.com.spike.data
 
+import br.com.spike.data.model.FirebaseObject
 import kotlin.reflect.KClass
 
 expect fun buildFirebaseFirestore(): FirebaseFirestore

@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
-import br.com.spike.domain.model.Player
+import br.com.spike.domain.model.User
 import br.com.spike.presentation.MatchDetails
 import br.com.spike.presentation.MatchExplorer
 import br.com.spike.presentation.MatchForm
@@ -55,7 +55,7 @@ object HomeScreen : Screen {
             onClickProfile = {
                 navigator.push(
                     Profile(
-                        Player(
+                        User(
                             id = "",
                             name = state.username,
                             avatarUrl = state.avatarUrl

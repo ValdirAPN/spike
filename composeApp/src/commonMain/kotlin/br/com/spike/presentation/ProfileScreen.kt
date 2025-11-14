@@ -19,7 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import br.com.spike.domain.model.Player
+import br.com.spike.domain.model.User
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIcons
 import br.com.spike.ui.components.SpikeScreen
@@ -31,7 +31,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 
-data class Profile(val player: Player) : Screen {
+data class Profile(val user: User) : Screen {
     @Composable
     override fun Content() {
 
@@ -45,15 +45,15 @@ data class Profile(val player: Player) : Screen {
                 )
             }
         ) {
-            ProfileContent(player)
+            ProfileContent(user)
         }
     }
 }
 
 @Composable
-private fun ProfileContent(player: Player) {
+private fun ProfileContent(user: User) {
     Column {
-        Header(player)
+        Header(user)
         Statistics()
         ProfileButton(icon = SpikeIcons.Pen, label = "Editar perfil", action = {})
         ProfileButton(icon = SpikeIcons.SignOut, label = "Sair", action = {})
@@ -61,7 +61,7 @@ private fun ProfileContent(player: Player) {
 }
 
 @Composable
-private fun Header(player: Player) {
+private fun Header(user: User) {
     Column(
         modifier = Modifier.fillMaxWidth().padding(all = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -78,13 +78,13 @@ private fun Header(player: Player) {
             contentAlignment = Alignment.Center
         ) {
             AsyncImage(
-                model = player.avatarUrl,
+                model = user.avatarUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
             )
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            SpikeText(player.name, style = SpikeTheme.typography.titleMedium)
+            SpikeText(user.name, style = SpikeTheme.typography.titleMedium)
             SpikeText(
                 "@matc",
                 style = SpikeTheme.typography.labelSmall,

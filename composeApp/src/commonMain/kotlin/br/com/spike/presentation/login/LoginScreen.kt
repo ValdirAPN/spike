@@ -1,4 +1,4 @@
-package br.com.spike.presentation
+package br.com.spike.presentation.login
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import br.com.spike.presentation.SignUpScreen
 import br.com.spike.presentation.home.HomeScreen
-import br.com.spike.presentation.login.LoginScreen
 import br.com.spike.ui.components.SpikeButton
 import br.com.spike.ui.components.SpikeButtonVariant
 import br.com.spike.ui.components.SpikeScreen
@@ -19,46 +21,55 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.kodein.di.compose.rememberInstance
 
-object SignUpScreen : Screen {
+object LoginScreen : Screen {
     @Composable
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        SignUpScreenContent(
-            onClickCreateAccount = { navigator.replaceAll(HomeScreen) },
-            onClickNavigateToLogin = { navigator.replaceAll(LoginScreen) }
+        val screenModel by rememberInstance<LoginScreenModel>()
+        val state by screenModel.state.collectAsStateWithLifecycle()
+
+        LoginScreenContent(
+            state = state,
+            onClickLogin = {
+                screenModel.authenticate {
+                    navigator.replaceAll(HomeScreen)
+                }
+            },
+            onClickCreateNewAccount = { navigator.replaceAll(SignUpScreen) }
         )
     }
 }
 
 @Composable
-private fun SignUpScreenContent(
-    onClickCreateAccount: () -> Unit,
-    onClickNavigateToLogin: () -> Unit,
-) {
+private fun LoginScreenContent(
+    state: LoginScreenState,
+    onClickLogin: () -> Unit,
+    onClickCreateNewAccount: () -> Unit,
+) = with (state) {
     SpikeScreen {
         Column(modifier = Modifier.fillMaxSize()) {
             SpikeTextField(
-                state = rememberTextFieldState(),
+                state = email,
                 label = "E-mail"
             )
             SpikeTextField(
-                state = rememberTextFieldState(),
+                state = password,
                 label = "Senha"
-            )
-            SpikeTextField(
-                state = rememberTextFieldState(),
-                label = "Confirmar senha"
             )
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(16.dp)
             ) {
-                SpikeButton(label = "Criar conta", action = onClickCreateAccount)
                 SpikeButton(
-                    label = "Já possui uma conta? Clique para acessar",
-                    action = onClickNavigateToLogin,
+                    label = "Entrar",
+                    action = onClickLogin
+                )
+                SpikeButton(
+                    label = "Criar nova conta",
+                    action = onClickCreateNewAccount,
                     variant = SpikeButtonVariant.NeutralSubtle
                 )
             }
@@ -68,11 +79,12 @@ private fun SignUpScreenContent(
 
 @Composable
 @Preview(showBackground = true)
-private fun SignUpScreenPreview() {
+private fun LoginScreenPreview() {
     SpikeTheme {
-        SignUpScreenContent(
-            onClickCreateAccount = {},
-            onClickNavigateToLogin = {},
+        LoginScreenContent(
+            state = LoginScreenState(),
+            onClickLogin = {},
+            onClickCreateNewAccount = {},
         )
     }
 }

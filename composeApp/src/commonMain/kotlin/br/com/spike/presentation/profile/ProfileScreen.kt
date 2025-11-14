@@ -1,4 +1,4 @@
-package br.com.spike.presentation
+package br.com.spike.presentation.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import br.com.spike.domain.model.User
+import br.com.spike.presentation.login.LoginScreen
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIcons
 import br.com.spike.ui.components.SpikeScreen
@@ -30,12 +31,14 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
+import org.kodein.di.compose.rememberInstance
 
 data class Profile(val user: User) : Screen {
     @Composable
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
+        val screenModel by rememberInstance<ProfileScreenModel>()
 
         SpikeScreen(
             topBar = {
@@ -45,18 +48,35 @@ data class Profile(val user: User) : Screen {
                 )
             }
         ) {
-            ProfileContent(user)
+            ProfileContent(
+                user = user,
+                onClickSignOut = {
+                    screenModel.signOut()
+                    navigator.replaceAll(LoginScreen)
+                }
+            )
         }
     }
 }
 
 @Composable
-private fun ProfileContent(user: User) {
+private fun ProfileContent(
+    user: User,
+    onClickSignOut: () -> Unit,
+) {
     Column {
         Header(user)
         Statistics()
-        ProfileButton(icon = SpikeIcons.Pen, label = "Editar perfil", action = {})
-        ProfileButton(icon = SpikeIcons.SignOut, label = "Sair", action = {})
+        ProfileButton(
+            icon = SpikeIcons.Pen,
+            label = "Editar perfil",
+            action = {}
+        )
+        ProfileButton(
+            icon = SpikeIcons.SignOut,
+            label = "Sair",
+            action = onClickSignOut
+        )
     }
 }
 

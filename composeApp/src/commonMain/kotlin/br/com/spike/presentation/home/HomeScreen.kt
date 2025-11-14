@@ -26,7 +26,7 @@ import br.com.spike.domain.model.User
 import br.com.spike.presentation.MatchDetails
 import br.com.spike.presentation.MatchExplorer
 import br.com.spike.presentation.MatchForm
-import br.com.spike.presentation.Profile
+import br.com.spike.presentation.profile.Profile
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
 import br.com.spike.ui.components.SpikeIconButtonSize

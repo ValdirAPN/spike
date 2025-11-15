@@ -53,6 +53,9 @@ kotlin {
             implementation(libs.coil.network.ktor3)
 
             implementation(libs.kodein.di.compose)
+
+            implementation(libs.datastore)
+            implementation(libs.datastore.preferences)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

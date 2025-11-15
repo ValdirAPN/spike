@@ -1,9 +1,12 @@
 package br.com.spike
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import br.com.spike.data.FirebaseAuthentication
 import br.com.spike.data.FirebaseFirestore
 import br.com.spike.data.buildFirebaseAuthentication
 import br.com.spike.data.buildFirebaseFirestore
+import br.com.spike.data.createPreferencesDataStore
 import br.com.spike.data.service.AuthServiceImpl
 import br.com.spike.domain.service.AuthService
 import br.com.spike.presentation.login.loginModule
@@ -21,6 +24,10 @@ val appModule: DI = DI {
 
     bindSingleton<FirebaseFirestore> {
         buildFirebaseFirestore()
+    }
+
+    bindSingleton<DataStore<Preferences>> {
+        createPreferencesDataStore()
     }
 
     bindSingleton<AuthService> {

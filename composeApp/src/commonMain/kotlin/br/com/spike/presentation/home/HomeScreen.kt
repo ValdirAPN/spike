@@ -112,11 +112,15 @@ private fun Header(
             onClick = onClickProfile,
         ) {
             Box(modifier = Modifier.size(48.dp), contentAlignment = Alignment.Center) {
-                AsyncImage(
-                    model = state.avatarUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                )
+                if (state.avatarUrl.isNotEmpty()) {
+                    AsyncImage(
+                        model = state.avatarUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                    )
+                } else {
+                    SpikeIcon(icon = SpikeIcons.User)
+                }
             }
         }
         SpikeText(

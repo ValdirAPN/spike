@@ -10,7 +10,7 @@ class HomeScreenModel : ScreenModel {
 
     private val _state = MutableStateFlow(HomeScreenState(
         username = "Matheus Carlos",
-        avatarUrl = "https://plus.unsplash.com/premium_photo-1682144187125-b55e638cf286?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXQlMjBtYW58ZW58MHx8MHx8fDA%3D&fm=jpg&q=60&w=3000",
+        avatarUrl = "",
         upcomingMatches = listOf(
             Match(
                 id = "match-1",

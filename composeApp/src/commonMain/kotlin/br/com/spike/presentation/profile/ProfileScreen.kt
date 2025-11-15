@@ -97,11 +97,18 @@ private fun Header(user: User) {
                 ),
             contentAlignment = Alignment.Center
         ) {
-            AsyncImage(
-                model = user.avatarUrl,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-            )
+            if (user.avatarUrl.isNotEmpty()) {
+                AsyncImage(
+                    model = user.avatarUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                )
+            } else {
+                SpikeIcon(
+                    icon = SpikeIcons.User,
+                    modifier = Modifier.width(32.dp)
+                )
+            }
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             SpikeText(user.name, style = SpikeTheme.typography.titleMedium)

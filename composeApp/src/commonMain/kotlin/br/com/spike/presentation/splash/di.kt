@@ -7,7 +7,7 @@ import org.kodein.di.instance
 val splashModule: DI.Module = DI.Module("splash-module") {
     bindSingleton {
         SplashScreenModel(
-            authService = instance()
+            authRepository = instance()
         )
     }
 }

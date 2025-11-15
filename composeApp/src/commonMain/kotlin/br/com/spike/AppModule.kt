@@ -7,8 +7,9 @@ import br.com.spike.data.FirebaseFirestore
 import br.com.spike.data.buildFirebaseAuthentication
 import br.com.spike.data.buildFirebaseFirestore
 import br.com.spike.data.createPreferencesDataStore
-import br.com.spike.data.service.AuthServiceImpl
-import br.com.spike.domain.service.AuthService
+import br.com.spike.data.repository.AuthRepositoryImpl
+import br.com.spike.domain.repository.AuthRepository
+import br.com.spike.presentation.home.homeModule
 import br.com.spike.presentation.login.loginModule
 import br.com.spike.presentation.profile.profileModule
 import br.com.spike.presentation.signUp.signUpModule
@@ -31,8 +32,8 @@ val appModule: DI = DI {
         createPreferencesDataStore()
     }
 
-    bindSingleton<AuthService> {
-        AuthServiceImpl(
+    bindSingleton<AuthRepository> {
+        AuthRepositoryImpl(
             firebaseAuthentication = instance(),
             firebaseFirestore = instance(),
         )
@@ -40,6 +41,7 @@ val appModule: DI = DI {
 
     import(splashModule)
     import(loginModule)
-    import(profileModule)
     import(signUpModule)
+    import(homeModule)
+    import(profileModule)
 }

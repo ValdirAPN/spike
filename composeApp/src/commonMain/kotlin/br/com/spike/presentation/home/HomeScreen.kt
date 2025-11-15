@@ -22,11 +22,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
-import br.com.spike.domain.model.User
 import br.com.spike.presentation.MatchDetails
 import br.com.spike.presentation.MatchExplorer
 import br.com.spike.presentation.MatchForm
-import br.com.spike.presentation.profile.Profile
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
 import br.com.spike.ui.components.SpikeIconButtonSize
@@ -35,34 +33,34 @@ import br.com.spike.ui.components.SpikeMatchCard
 import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeText
 import br.com.spike.ui.theme.SpikeTheme
-import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.kodein.di.compose.rememberInstance
 
-object HomeScreen : Screen {
+data object HomeScreen : Screen {
     @Composable
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel = rememberScreenModel { HomeScreenModel() }
+        val screenModel by rememberInstance<HomeScreenModel>()
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         HomeContent(
             state = state,
             onClickProfile = {
-                navigator.push(
-                    Profile(
-                        User(
-                            id = "",
-                            name = state.username,
-                            username = state.username,
-                            avatarUrl = state.avatarUrl
-                        )
-                    )
-                )
+//                navigator.push(
+//                    Profile(
+//                        User(
+//                            id = "",
+//                            name = state.username,
+//                            username = state.username,
+//                            avatarUrl = state.avatarUrl
+//                        )
+//                    )
+//                )
             },
             onClickFindMatchButton = { navigator.push(MatchExplorer) },
             onClickCreateMatchButton = { navigator.push(MatchForm) },
@@ -112,9 +110,9 @@ private fun Header(
             onClick = onClickProfile,
         ) {
             Box(modifier = Modifier.size(48.dp), contentAlignment = Alignment.Center) {
-                if (state.avatarUrl.isNotEmpty()) {
+                if (state.user.avatarUrl.isNotEmpty()) {
                     AsyncImage(
-                        model = state.avatarUrl,
+                        model = state.user.avatarUrl,
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                     )
@@ -124,7 +122,7 @@ private fun Header(
             }
         }
         SpikeText(
-            text = state.username,
+            text = state.user.username,
             modifier = Modifier.weight(1f),
             style = SpikeTheme.typography.titleMedium
         )

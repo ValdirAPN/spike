@@ -1,19 +1,19 @@
-package br.com.spike.data.service
+package br.com.spike.data.repository
 
 import br.com.spike.data.FirebaseAuthentication
 import br.com.spike.data.FirebaseFirestore
 import br.com.spike.data.model.UserDto
-import br.com.spike.domain.service.AuthService
+import br.com.spike.domain.repository.AuthRepository
 import br.com.spike.domain.model.User
 
 private const val USERS_COLLECTION = "users"
 
-class AuthServiceImpl(
+class AuthRepositoryImpl(
     private val firebaseAuthentication: FirebaseAuthentication,
     private val firebaseFirestore: FirebaseFirestore,
-) : AuthService {
-    override suspend fun currentUser(): User? {
-        val currentUser = firebaseAuthentication.currentUser() ?: return null
+) : AuthRepository {
+    override suspend fun currentUser(): User {
+        val currentUser = firebaseAuthentication.currentUser() ?: throw Exception("Unauthenticated")
 
         val userDocument = firebaseFirestore.read(
             collection = USERS_COLLECTION,
@@ -42,7 +42,11 @@ class AuthServiceImpl(
             avatarUrl = ""
         )
 
-        firebaseFirestore.save("users", userId, user)
+        firebaseFirestore.save(
+            collection = USERS_COLLECTION,
+            document = userId,
+            data = user,
+        )
 
         return userId
     }

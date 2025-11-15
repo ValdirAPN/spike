@@ -7,7 +7,7 @@ import org.kodein.di.instance
 val loginModule: DI.Module = DI.Module("login-module") {
     bindSingleton {
         LoginScreenModel(
-            authService = instance()
+            authRepository = instance()
         )
     }
 }

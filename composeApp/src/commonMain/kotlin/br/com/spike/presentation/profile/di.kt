@@ -7,7 +7,7 @@ import org.kodein.di.instance
 val profileModule: DI.Module = DI.Module("profile-module") {
     bindSingleton {
         ProfileScreenModel(
-            authService = instance()
+            authRepository = instance()
         )
     }
 }

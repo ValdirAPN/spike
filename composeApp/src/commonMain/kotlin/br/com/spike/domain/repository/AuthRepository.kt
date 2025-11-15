@@ -1,9 +1,9 @@
-package br.com.spike.domain.service
+package br.com.spike.domain.repository
 
 import br.com.spike.domain.model.User
 
-interface AuthService {
-    suspend fun currentUser(): User?
+interface AuthRepository {
+    suspend fun currentUser(): User
     suspend fun signUp(
         email: String,
         password: String,

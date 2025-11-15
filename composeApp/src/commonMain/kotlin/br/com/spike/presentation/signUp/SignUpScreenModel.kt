@@ -1,6 +1,6 @@
 package br.com.spike.presentation.signUp
 
-import br.com.spike.domain.service.AuthService
+import br.com.spike.domain.repository.AuthRepository
 import br.com.spike.ui.components.SpikeButtonState
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
@@ -12,11 +12,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 sealed interface SignUpScreenEvent {
-    object Authenticated : SignUpScreenEvent
+    data object Authenticated : SignUpScreenEvent
 }
 
 class SignUpScreenModel(
-    private val authService: AuthService,
+    private val authRepository: AuthRepository,
 ) : ScreenModel {
 
     private val _events = MutableSharedFlow<SignUpScreenEvent>(replay = 1)
@@ -33,7 +33,7 @@ class SignUpScreenModel(
                 val name = name.text.trim().toString()
                 val username = username.text.trim().toString()
 
-                authService.signUp(
+                authRepository.signUp(
                     email, password, name, username
                 )
 

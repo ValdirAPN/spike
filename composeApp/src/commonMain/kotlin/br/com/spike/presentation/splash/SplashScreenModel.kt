@@ -1,7 +1,7 @@
 package br.com.spike.presentation.splash
 
 import br.com.spike.domain.model.User
-import br.com.spike.domain.service.AuthService
+import br.com.spike.domain.repository.AuthRepository
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,14 +14,14 @@ sealed interface SplashScreenEvent {
 }
 
 class SplashScreenModel(
-    private val authService: AuthService,
+    private val authRepository: AuthRepository,
 ) : ScreenModel {
 
     private val _events = MutableSharedFlow<SplashScreenEvent>(replay = 1)
     val events = _events.asSharedFlow()
 
     fun checkAuthState() = screenModelScope.launch {
-        val user = authService.currentUser()
+        val user = authRepository.currentUser()
         val event = if (user != null) {
             SplashScreenEvent.Authenticated(user)
         } else SplashScreenEvent.Unauthenticated

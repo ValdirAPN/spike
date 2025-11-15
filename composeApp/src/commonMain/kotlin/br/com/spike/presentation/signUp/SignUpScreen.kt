@@ -36,7 +36,9 @@ object SignUpScreen : Screen {
         LaunchedEffect(Unit) {
             screenModel.events.collectLatest { event ->
                 when (event) {
-                    SignUpScreenEvent.Authenticated -> navigator.replaceAll(HomeScreen)
+                    is SignUpScreenEvent.Authenticated -> {
+                        navigator.replaceAll(HomeScreen)
+                    }
                 }
             }
         }

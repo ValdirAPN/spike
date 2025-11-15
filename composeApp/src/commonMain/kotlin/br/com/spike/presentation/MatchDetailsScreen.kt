@@ -327,7 +327,12 @@ private fun MatchDetailsContentPreview() {
                 title = "Vôlei no Ninho",
                 spots = 18,
                 users = emptyList(),
-                organizer = User(id = "", name = "Matheus Carlos", avatarUrl = "")
+                organizer = User(
+                    id = "",
+                    name = "Matheus Carlos",
+                    username = "matc",
+                    avatarUrl = ""
+                )
             ),
             onNavigateBack = {}
         )

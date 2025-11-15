@@ -58,6 +58,7 @@ object HomeScreen : Screen {
                         User(
                             id = "",
                             name = state.username,
+                            username = state.username,
                             avatarUrl = state.avatarUrl
                         )
                     )

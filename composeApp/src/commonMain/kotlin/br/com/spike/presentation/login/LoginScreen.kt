@@ -4,13 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.spike.presentation.SignUpScreen
+import br.com.spike.presentation.signUp.SignUpScreen
 import br.com.spike.presentation.home.HomeScreen
 import br.com.spike.ui.components.SpikeButton
 import br.com.spike.ui.components.SpikeButtonVariant

@@ -11,6 +11,7 @@ import br.com.spike.data.service.AuthServiceImpl
 import br.com.spike.domain.service.AuthService
 import br.com.spike.presentation.login.loginModule
 import br.com.spike.presentation.profile.profileModule
+import br.com.spike.presentation.signUp.signUpModule
 import br.com.spike.presentation.splash.splashModule
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
@@ -40,4 +41,5 @@ val appModule: DI = DI {
     import(splashModule)
     import(loginModule)
     import(profileModule)
+    import(signUpModule)
 }

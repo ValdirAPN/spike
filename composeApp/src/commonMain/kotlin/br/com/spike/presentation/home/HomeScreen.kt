@@ -25,6 +25,7 @@ import br.com.spike.domain.model.Match
 import br.com.spike.presentation.MatchDetails
 import br.com.spike.presentation.MatchExplorer
 import br.com.spike.presentation.MatchForm
+import br.com.spike.presentation.profile.ProfileScreen
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
 import br.com.spike.ui.components.SpikeIconButtonSize
@@ -51,16 +52,9 @@ data object HomeScreen : Screen {
         HomeContent(
             state = state,
             onClickProfile = {
-//                navigator.push(
-//                    Profile(
-//                        User(
-//                            id = "",
-//                            name = state.username,
-//                            username = state.username,
-//                            avatarUrl = state.avatarUrl
-//                        )
-//                    )
-//                )
+                navigator.push(
+                    ProfileScreen
+                )
             },
             onClickFindMatchButton = { navigator.push(MatchExplorer) },
             onClickCreateMatchButton = { navigator.push(MatchForm) },

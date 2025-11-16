@@ -13,12 +13,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.User
 import br.com.spike.presentation.login.LoginScreen
 import br.com.spike.ui.components.SpikeIcon
@@ -33,12 +35,13 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import org.kodein.di.compose.rememberInstance
 
-data class Profile(val user: User) : Screen {
+data object ProfileScreen : Screen {
     @Composable
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
         val screenModel by rememberInstance<ProfileScreenModel>()
+        val state by screenModel.state.collectAsStateWithLifecycle()
 
         SpikeScreen(
             topBar = {
@@ -49,7 +52,7 @@ data class Profile(val user: User) : Screen {
             }
         ) {
             ProfileContent(
-                user = user,
+                state = state,
                 onClickSignOut = {
                     screenModel.signOut()
                     navigator.replaceAll(LoginScreen)
@@ -61,11 +64,11 @@ data class Profile(val user: User) : Screen {
 
 @Composable
 private fun ProfileContent(
-    user: User,
+    state: ProfileScreenState,
     onClickSignOut: () -> Unit,
 ) {
     Column {
-        Header(user)
+        Header(state.user)
         Statistics()
         ProfileButton(
             icon = SpikeIcons.Pen,

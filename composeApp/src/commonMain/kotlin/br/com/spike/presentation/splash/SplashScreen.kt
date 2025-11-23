@@ -11,6 +11,7 @@ import br.com.spike.presentation.home.HomeScreen
 import br.com.spike.ui.components.SpikeProgress
 import br.com.spike.ui.components.SpikeScreen
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.flow.collectLatest
@@ -21,7 +22,7 @@ object SplashScreen : Screen {
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel by rememberInstance<SplashScreenModel>()
+        val screenModel = rememberScreenModel<SplashScreenModel>()
 
         LaunchedEffect(Unit) {
             screenModel.checkAuthState()

@@ -8,9 +8,12 @@ import br.com.spike.data.buildFirebaseAuthentication
 import br.com.spike.data.buildFirebaseFirestore
 import br.com.spike.data.createPreferencesDataStore
 import br.com.spike.data.repository.AuthRepositoryImpl
+import br.com.spike.data.repository.MatchRepositoryImpl
 import br.com.spike.domain.repository.AuthRepository
+import br.com.spike.domain.repository.MatchRepository
 import br.com.spike.presentation.home.homeModule
 import br.com.spike.presentation.login.loginModule
+import br.com.spike.presentation.matchForm.matchFormModule
 import br.com.spike.presentation.profile.profileModule
 import br.com.spike.presentation.signUp.signUpModule
 import br.com.spike.presentation.splash.splashModule
@@ -39,9 +42,17 @@ val appModule: DI = DI {
         )
     }
 
+    bindSingleton<MatchRepository> {
+        MatchRepositoryImpl(
+            firebaseFirestore = instance(),
+            authRepository = instance(),
+        )
+    }
+
     import(splashModule)
     import(loginModule)
     import(signUpModule)
     import(homeModule)
     import(profileModule)
+    import(matchFormModule)
 }

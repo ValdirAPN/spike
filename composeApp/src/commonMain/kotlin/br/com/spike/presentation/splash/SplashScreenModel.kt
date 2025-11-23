@@ -21,7 +21,11 @@ class SplashScreenModel(
     val events = _events.asSharedFlow()
 
     fun checkAuthState() = screenModelScope.launch {
-        val user = authRepository.currentUser()
+        val user = try {
+            authRepository.currentUser()
+        } catch (e: Exception) {
+            null
+        }
         val event = if (user != null) {
             SplashScreenEvent.Authenticated(user)
         } else SplashScreenEvent.Unauthenticated

@@ -12,7 +12,7 @@ val homeModule: DI.Module = DI.Module("home-module") {
         HomeRepositoryImpl(authRepository = instance())
     }
 
-    bindSingleton {
+    bindProvider {
         HomeScreenModel(
             homeRepository = instance()
         )

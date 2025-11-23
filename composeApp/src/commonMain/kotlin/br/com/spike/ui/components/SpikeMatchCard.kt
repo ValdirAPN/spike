@@ -17,10 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import br.com.spike.domain.model.CourtType
+import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.Match
+import br.com.spike.domain.model.SkillLevel
 import br.com.spike.domain.model.User
+import br.com.spike.domain.model.Visibility
 import br.com.spike.ui.theme.SpikeTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun SpikeMatchCard(match: Match, onClick: () -> Unit) = with(match) {
@@ -49,7 +55,7 @@ fun SpikeMatchCard(match: Match, onClick: () -> Unit) = with(match) {
                 }
             }
             Footer(
-                playersQuantity = users.size,
+                playersQuantity = players.size,
                 spots = spots,
             )
         }
@@ -127,6 +133,7 @@ private fun Footer(
     }
 }
 
+@OptIn(ExperimentalTime::class)
 @Composable
 @Preview
 fun SpikeMatchCardPreview() {
@@ -136,7 +143,13 @@ fun SpikeMatchCardPreview() {
                 id = "",
                 title = "Vôlei no Ninho",
                 spots = 18,
-                users = emptyList(),
+                players = emptyList(),
+                courtType = CourtType.BEACH,
+                skillLevel = SkillLevel.BEGINNER,
+                genderPreference = GenderPreference.MIXED,
+                visibility = Visibility.PUBLIC,
+                startAt = Clock.System.now(),
+                durationMinutes = 90,
                 organizer = User(
                     id = "",
                     name = "Matheus Carlos",

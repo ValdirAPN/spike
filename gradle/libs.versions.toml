@@ -21,6 +21,7 @@ firebase = "34.0.0"
 kodeinDiCompose = "7.22.0"
 datastore = "1.1.7"
 kotlinx-datetime = "0.7.1"
+lyricist = "1.7.0"
 
 [libraries]
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
@@ -40,6 +41,7 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager"}
 voyager-screenmodel = { group = "cafe.adriel.voyager", name = "voyager-screenmodel", version.ref = "voyager"}
 voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager"}
+voyager-kodein = { group = "cafe.adriel.voyager", name = "voyager-kodein", version.ref = "voyager"}
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
@@ -47,6 +49,8 @@ kodein-di-compose = { module = "org.kodein.di:kodein-di-framework-compose", vers
 datastore = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+lyricist = { group = "cafe.adriel.lyricist", name = "lyricist", version.ref = "lyricist" }
+lyricist-processor = { group = "cafe.adriel.lyricist", name = "lyricist-processor", version.ref = "lyricist" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

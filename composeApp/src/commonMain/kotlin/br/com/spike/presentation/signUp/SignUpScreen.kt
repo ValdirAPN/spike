@@ -19,18 +19,18 @@ import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeTextField
 import br.com.spike.ui.theme.SpikeTheme
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.kodein.di.compose.rememberInstance
 
 object SignUpScreen : Screen {
     @Composable
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel by rememberInstance<SignUpScreenModel>()
+        val screenModel = rememberScreenModel<SignUpScreenModel>()
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {

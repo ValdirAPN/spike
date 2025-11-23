@@ -19,8 +19,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import br.com.spike.domain.model.CourtType
+import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.Match
+import br.com.spike.domain.model.Player
+import br.com.spike.domain.model.SkillLevel
 import br.com.spike.domain.model.User
+import br.com.spike.domain.model.Visibility
 import br.com.spike.ui.components.SpikeButton
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIcons
@@ -34,6 +39,8 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 data class MatchDetails(val match: Match) : Screen {
     @Composable
@@ -78,7 +85,7 @@ private fun MatchDetailsContent(
                 LocationCard()
                 Attributes()
                 OrganizerCard(organizer = match.organizer)
-                PlayersCard(users = match.users)
+                PlayersCard(users = match.players)
             }
             Box(Modifier.padding(all = 16.dp)) {
                 SpikeButton("Participar", action = {})
@@ -263,7 +270,7 @@ private fun OrganizerCard(organizer: User) {
 }
 
 @Composable
-private fun PlayersCard(users: List<User>) {
+private fun PlayersCard(users: List<Player>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -310,13 +317,14 @@ private fun PlayersCard(users: List<User>) {
                     )
                 }
                 SpikeText(
-                    text = player.name,
+                    text = player.username,
                 )
             }
         }
     }
 }
 
+@OptIn(ExperimentalTime::class)
 @Composable
 @Preview
 private fun MatchDetailsContentPreview() {
@@ -326,7 +334,13 @@ private fun MatchDetailsContentPreview() {
                 id = "",
                 title = "Vôlei no Ninho",
                 spots = 18,
-                users = emptyList(),
+                players = emptyList(),
+                courtType = CourtType.BEACH,
+                skillLevel = SkillLevel.BEGINNER,
+                genderPreference = GenderPreference.MIXED,
+                visibility = Visibility.PUBLIC,
+                startAt = Clock.System.now(),
+                durationMinutes = 90,
                 organizer = User(
                     id = "",
                     name = "Matheus Carlos",

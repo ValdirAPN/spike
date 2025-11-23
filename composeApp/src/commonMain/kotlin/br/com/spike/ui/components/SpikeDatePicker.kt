@@ -3,6 +3,8 @@ package br.com.spike.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DatePicker
@@ -21,6 +23,7 @@ fun SpikeDatePicker(
     modifier: Modifier = Modifier,
     showModeToggle: Boolean = false,
     title: String? = null,
+    error: String? = null,
 ) {
     Column(
         modifier = modifier.padding(vertical = 8.dp, horizontal = 16.dp)
@@ -32,16 +35,17 @@ fun SpikeDatePicker(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }
+        val background = if (error != null) SpikeTheme.colors.backgroundNegativeSubtle else SpikeTheme.colors.backgroundBody
         Box(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(16.dp))
-                .background(SpikeTheme.colors.backgroundBody)
+                .background(background)
         ) {
             DatePicker(
                 state = state,
                 modifier = Modifier.padding(bottom = 8.dp, top = 2.dp),
                 colors = DatePickerDefaults.colors(
-                    containerColor = SpikeTheme.colors.backgroundBody,
+                    containerColor = background,
                     titleContentColor = SpikeTheme.colors.contentHigh,
                     headlineContentColor = SpikeTheme.colors.contentHigh,
                     weekdayContentColor = SpikeTheme.colors.contentLow,
@@ -63,6 +67,14 @@ fun SpikeDatePicker(
                 showModeToggle = showModeToggle,
                 title = null,
                 headline = null,
+            )
+        }
+        error?.let {
+            Spacer(Modifier.height(4.dp))
+            SpikeText(
+                text = it,
+                style = SpikeTheme.typography.labelSmall,
+                color = SpikeTheme.colors.contentNegative
             )
         }
     }

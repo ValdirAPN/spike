@@ -1,6 +1,7 @@
 package br.com.spike.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
@@ -40,6 +41,7 @@ fun SpikeTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onKeyboardAction: KeyboardActionHandler? = null,
     lineLimits: TextFieldLineLimits = TextFieldLineLimits.Default,
+    error: String? = null,
     onClick: (() -> Unit)? = null,
 ) {
     SpikeTextField(
@@ -54,6 +56,7 @@ fun SpikeTextField(
         keyboardOptions = keyboardOptions,
         onKeyboardAction = onKeyboardAction,
         lineLimits = lineLimits,
+        error = error,
         onClick = onClick
     )
 }
@@ -71,6 +74,7 @@ fun SpikeTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onKeyboardAction: KeyboardActionHandler? = null,
     lineLimits: TextFieldLineLimits = TextFieldLineLimits.Default,
+    error: String? = null,
     onClick: (() -> Unit)? = null,
 ) {
 
@@ -94,14 +98,32 @@ fun SpikeTextField(
         label?.let {
             SpikeText(text = it, style = SpikeTheme.typography.labelSmall)
         }
+
+        val (background, borderColor, contentColor) = if (error != null) {
+            Triple(
+                SpikeTheme.colors.backgroundNegativeSubtle,
+                SpikeTheme.colors.borderNegative,
+                SpikeTheme.colors.contentNegative,
+            )
+        } else Triple(
+            SpikeTheme.colors.backgroundBody,
+            SpikeTheme.colors.borderNeutral,
+            SpikeTheme.colors.contentHigh
+        )
+
         Row(
             modifier = Modifier
                 .height(54.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(size = 16.dp))
                 .background(
-                    SpikeTheme.colors.backgroundBody,
+                    background,
                     shape = RoundedCornerShape(size = 16.dp)
+                )
+                .border(
+                    width = 1.dp,
+                    color = borderColor,
+                    shape = RoundedCornerShape(16.dp)
                 ),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -119,7 +141,7 @@ fun SpikeTextField(
                     enabled = enabled,
                     readOnly = readOnly || onClick != null,
                     inputTransformation = inputTransformation,
-                    textStyle = SpikeTheme.typography.bodyMedium.copy(color = SpikeTheme.colors.contentHigh),
+                    textStyle = SpikeTheme.typography.bodyMedium.copy(color = contentColor),
                     keyboardOptions = keyboardOptions,
                     onKeyboardAction = onKeyboardAction,
                     lineLimits = lineLimits,
@@ -142,6 +164,13 @@ fun SpikeTextField(
 
                 null -> {}
             }
+        }
+        error?.let {
+            SpikeText(
+                text = it,
+                style = SpikeTheme.typography.labelSmall,
+                color = SpikeTheme.colors.contentNegative
+            )
         }
     }
 }

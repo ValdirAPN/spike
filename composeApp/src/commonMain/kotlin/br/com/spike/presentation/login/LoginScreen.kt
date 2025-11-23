@@ -9,25 +9,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import br.com.spike.presentation.signUp.SignUpScreen
 import br.com.spike.presentation.home.HomeScreen
+import br.com.spike.presentation.signUp.SignUpScreen
 import br.com.spike.ui.components.SpikeButton
 import br.com.spike.ui.components.SpikeButtonVariant
 import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeTextField
 import br.com.spike.ui.theme.SpikeTheme
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.kodein.di.compose.rememberInstance
 
 object LoginScreen : Screen {
     @Composable
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel by rememberInstance<LoginScreenModel>()
+        val screenModel = rememberScreenModel<LoginScreenModel>()
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         LoginScreenContent(

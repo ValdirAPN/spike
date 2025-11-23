@@ -24,7 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
 import br.com.spike.presentation.MatchDetails
 import br.com.spike.presentation.MatchExplorer
-import br.com.spike.presentation.MatchForm
+import br.com.spike.presentation.matchForm.MatchFormScreen
 import br.com.spike.presentation.profile.ProfileScreen
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIconButton
@@ -35,18 +35,18 @@ import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeText
 import br.com.spike.ui.theme.SpikeTheme
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.kodein.di.compose.rememberInstance
 
 data object HomeScreen : Screen {
     @Composable
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
-        val screenModel by rememberInstance<HomeScreenModel>()
+        val screenModel = rememberScreenModel<HomeScreenModel>()
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         HomeContent(
@@ -57,7 +57,7 @@ data object HomeScreen : Screen {
                 )
             },
             onClickFindMatchButton = { navigator.push(MatchExplorer) },
-            onClickCreateMatchButton = { navigator.push(MatchForm) },
+            onClickCreateMatchButton = { navigator.push(MatchFormScreen) },
             onClickMatch = { match -> navigator.push(MatchDetails(match)) }
         )
     }

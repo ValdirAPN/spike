@@ -22,10 +22,11 @@ import androidx.compose.ui.unit.dp
 import br.com.spike.ui.theme.SpikeTheme
 
 @Composable
-fun SpikeHorizontalSelector(
-    items: List<String>,
-    onSelectItem: (String) -> Unit,
+fun <T> SpikeHorizontalSelector(
+    items: List<T>,
+    onSelectItem: (T) -> Unit,
     modifier: Modifier = Modifier,
+    itemToString: (T) -> String = { it.toString() }
 ) {
 
     var selectedItem by remember { mutableStateOf(items.first()) }
@@ -62,7 +63,7 @@ fun SpikeHorizontalSelector(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    SpikeText(item, overflow = TextOverflow.Ellipsis)
+                    SpikeText(itemToString(item), overflow = TextOverflow.Ellipsis)
                 }
             }
         }

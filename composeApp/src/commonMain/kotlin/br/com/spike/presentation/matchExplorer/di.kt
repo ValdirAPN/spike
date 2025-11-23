@@ -1,12 +1,12 @@
-package br.com.spike.presentation.matchForm
+package br.com.spike.presentation.matchExplorer
 
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 
-val matchFormModule: DI.Module = DI.Module("match-form-module") {
+val matchExplorerModule: DI.Module = DI.Module("match-explorer-module") {
     bindProvider {
-        MatchFormScreenModel(
+        MatchExplorerScreenModel(
             matchRepository = instance()
         )
     }

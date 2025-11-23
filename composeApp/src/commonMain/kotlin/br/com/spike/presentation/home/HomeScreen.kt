@@ -22,8 +22,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
-import br.com.spike.presentation.MatchDetails
-import br.com.spike.presentation.MatchExplorer
+import br.com.spike.presentation.MatchDetailsScreen
+import br.com.spike.presentation.PtStrings
+import br.com.spike.presentation.Strings
+import br.com.spike.presentation.matchExplorer.MatchExplorer
 import br.com.spike.presentation.matchForm.MatchFormScreen
 import br.com.spike.presentation.profile.ProfileScreen
 import br.com.spike.ui.components.SpikeIcon
@@ -34,6 +36,7 @@ import br.com.spike.ui.components.SpikeMatchCard
 import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeText
 import br.com.spike.ui.theme.SpikeTheme
+import cafe.adriel.lyricist.LocalStrings
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -46,11 +49,13 @@ data object HomeScreen : Screen {
     override fun Content() {
 
         val navigator = LocalNavigator.currentOrThrow
+        val strings = LocalStrings.current
         val screenModel = rememberScreenModel<HomeScreenModel>()
         val state by screenModel.state.collectAsStateWithLifecycle()
 
         HomeContent(
             state = state,
+            strings = strings,
             onClickProfile = {
                 navigator.push(
                     ProfileScreen
@@ -58,7 +63,7 @@ data object HomeScreen : Screen {
             },
             onClickFindMatchButton = { navigator.push(MatchExplorer) },
             onClickCreateMatchButton = { navigator.push(MatchFormScreen) },
-            onClickMatch = { match -> navigator.push(MatchDetails(match)) }
+            onClickMatch = { match -> navigator.push(MatchDetailsScreen(match)) }
         )
     }
 }
@@ -66,6 +71,7 @@ data object HomeScreen : Screen {
 @Composable
 private fun HomeContent(
     state: HomeScreenState,
+    strings: Strings,
     onClickProfile: () -> Unit,
     onClickFindMatchButton: () -> Unit,
     onClickCreateMatchButton: () -> Unit,
@@ -82,6 +88,7 @@ private fun HomeContent(
         )
         UpcomingMatches(
             matches = state.upcomingMatches,
+            strings = strings,
             onClickMatch = onClickMatch
         )
     }
@@ -158,6 +165,7 @@ private fun HomeActions(
 @Composable
 private fun UpcomingMatches(
     matches: List<Match>,
+    strings: Strings,
     onClickMatch: (Match) -> Unit,
 ) {
     Column(
@@ -177,6 +185,7 @@ private fun UpcomingMatches(
                 items(items = matches) { match ->
                     SpikeMatchCard(
                         match = match,
+                        strings = strings,
                         onClick = { onClickMatch(match) }
                     )
                 }
@@ -242,6 +251,7 @@ private fun HomeContentPreview() {
     SpikeTheme {
         HomeContent(
             state = HomeScreenState(),
+            strings = PtStrings,
             onClickProfile = {},
             onClickFindMatchButton = {},
             onClickCreateMatchButton = {},

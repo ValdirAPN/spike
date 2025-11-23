@@ -24,7 +24,6 @@ import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.Match
 import br.com.spike.domain.model.Player
 import br.com.spike.domain.model.SkillLevel
-import br.com.spike.domain.model.User
 import br.com.spike.domain.model.Visibility
 import br.com.spike.ui.components.SpikeButton
 import br.com.spike.ui.components.SpikeIcon
@@ -38,11 +37,13 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-data class MatchDetails(val match: Match) : Screen {
+data class MatchDetailsScreen(val match: Match) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
@@ -84,7 +85,9 @@ private fun MatchDetailsContent(
                 DateAndTimeCard()
                 LocationCard()
                 Attributes()
-                OrganizerCard(organizer = match.organizer)
+                match.organizer?.let {
+                    OrganizerCard(organizer = it)
+                }
                 PlayersCard(users = match.players)
             }
             Box(Modifier.padding(all = 16.dp)) {
@@ -223,7 +226,7 @@ private fun RowScope.AttributeCard(label: String, value: String) {
 }
 
 @Composable
-private fun OrganizerCard(organizer: User) {
+private fun OrganizerCard(organizer: Player) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -261,7 +264,7 @@ private fun OrganizerCard(organizer: User) {
                 color = SpikeTheme.colors.contentBrand
             )
             SpikeText(
-                organizer.name.uppercase(),
+                organizer.username.uppercase(),
                 fontWeight = FontWeight.Black,
                 style = SpikeTheme.typography.bodySmall
             )
@@ -339,12 +342,11 @@ private fun MatchDetailsContentPreview() {
                 skillLevel = SkillLevel.BEGINNER,
                 genderPreference = GenderPreference.MIXED,
                 visibility = Visibility.PUBLIC,
-                startAt = Clock.System.now(),
+                startAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
                 durationMinutes = 90,
-                organizer = User(
-                    id = "",
-                    name = "Matheus Carlos",
-                    username = "matc",
+                organizer = Player(
+                    uid = "",
+                    username = "Matheus Carlos",
                     avatarUrl = ""
                 )
             ),

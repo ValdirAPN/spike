@@ -13,6 +13,7 @@ import br.com.spike.domain.repository.AuthRepository
 import br.com.spike.domain.repository.MatchRepository
 import br.com.spike.presentation.home.homeModule
 import br.com.spike.presentation.login.loginModule
+import br.com.spike.presentation.matchExplorer.matchExplorerModule
 import br.com.spike.presentation.matchForm.matchFormModule
 import br.com.spike.presentation.profile.profileModule
 import br.com.spike.presentation.signUp.signUpModule
@@ -55,4 +56,5 @@ val appModule: DI = DI {
     import(homeModule)
     import(profileModule)
     import(matchFormModule)
+    import(matchExplorerModule)
 }

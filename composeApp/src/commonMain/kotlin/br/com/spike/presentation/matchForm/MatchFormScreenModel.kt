@@ -16,7 +16,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 sealed interface MatchFormScreenEvent {
     data object CreatedSuccessfully : MatchFormScreenEvent
@@ -105,6 +111,7 @@ class MatchFormScreenModel(
         }
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun createMatch() {
         screenModelScope.launch {
             if (!validateFields()) return@launch
@@ -112,6 +119,19 @@ class MatchFormScreenModel(
             _state.update { oldState -> oldState.copy(buttonState = SpikeButtonState.Loading) }
 
             with(_state.value) {
+                val startAtMillis = Instant
+                    .fromEpochMilliseconds(dateMillis.content ?: 0)
+                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                    .run {
+                        LocalDateTime(
+                            year = this.year,
+                            month = this.month,
+                            day = this.day,
+                            hour = startAt.content?.hour ?: 0,
+                            minute = startAt.content?.minute ?: 0
+                        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+                    }
+
                 val matchDto = MatchDto(
                     title = title.content.text.toString(),
                     spots = spots.content.text.toString().toInt(),
@@ -119,11 +139,10 @@ class MatchFormScreenModel(
                     skillLevel = skillLevel.name,
                     genderPreference = genderPreference.name,
                     visibility = visibility.name,
-                    dateMillis = dateMillis.content ?: 0,
-                    startAtMillis = startAt.content?.toMillisecondOfDay().toString(),
+                    startAtMillis = startAtMillis,
                     durationMinutes = duration.content?.toMinutes() ?: 0,
-                    playersIds = emptyList(),
-                    organizerId = "",
+                    players = emptyList(),
+                    organizer = null,
                 )
 
                 println("VPNT - $matchDto")

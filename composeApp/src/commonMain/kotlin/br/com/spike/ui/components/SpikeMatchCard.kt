@@ -6,30 +6,50 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import br.com.spike.domain.model.CourtType
 import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.Match
+import br.com.spike.domain.model.Player
 import br.com.spike.domain.model.SkillLevel
-import br.com.spike.domain.model.User
 import br.com.spike.domain.model.Visibility
+import br.com.spike.domain.utils.formatWithDuration
+import br.com.spike.domain.utils.toDayOfWeekDayOfMonthAndMonthName
+import br.com.spike.presentation.PtStrings
+import br.com.spike.presentation.Strings
 import br.com.spike.ui.theme.SpikeTheme
+import coil3.compose.AsyncImage
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format.DayOfWeekNames
+import kotlinx.datetime.format.MonthNames
+import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @Composable
-fun SpikeMatchCard(match: Match, onClick: () -> Unit) = with(match) {
+fun SpikeMatchCard(
+    match: Match,
+    strings: Strings,
+    onClick: () -> Unit
+) = with(match) {
     Surface(
         color = SpikeTheme.colors.backgroundBrandVariant,
         contentColor = SpikeTheme.colors.contentHigh,
@@ -47,23 +67,34 @@ fun SpikeMatchCard(match: Match, onClick: () -> Unit) = with(match) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                DateAndTime()
+                DateAndTime(
+                    startAt = startAt,
+                    duration = durationMinutes,
+                    daysOfWeekNames = strings.daysOfWeekNamesAbbrev,
+                    monthNames = strings.monthNames
+                )
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    InfoLabel("Iniciante")
-                    InfoLabel("Misto")
-                    InfoLabel("Quadra")
+                    InfoLabel(strings.skillLevel(skillLevel))
+                    InfoLabel(strings.genderPreference(genderPreference))
+                    InfoLabel(strings.courtType(courtType))
                 }
             }
             Footer(
-                playersQuantity = players.size,
+                players = players,
                 spots = spots,
             )
         }
     }
 }
 
+@OptIn(ExperimentalTime::class)
 @Composable
-private fun DateAndTime() {
+private fun DateAndTime(
+    startAt: LocalDateTime,
+    duration: Int,
+    daysOfWeekNames: DayOfWeekNames,
+    monthNames: MonthNames,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -83,7 +114,7 @@ private fun DateAndTime() {
                 tint = SpikeTheme.colors.contentBrand,
                 modifier = Modifier.width(14.dp),
             )
-            SpikeText("Sábado, 19 de Outubro")
+            SpikeText(startAt.date.toDayOfWeekDayOfMonthAndMonthName(daysOfWeekNames, monthNames))
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -94,7 +125,7 @@ private fun DateAndTime() {
                 tint = SpikeTheme.colors.contentBrand,
                 modifier = Modifier.width(14.dp),
             )
-            SpikeText("19:00 - 21:00")
+            SpikeText(startAt.formatWithDuration(duration))
         }
     }
 }
@@ -106,6 +137,7 @@ private fun RowScope.InfoLabel(
     Box(
         modifier = Modifier
             .weight(1f)
+            .height(40.dp)
             .background(SpikeTheme.colors.backgroundBrand, shape = RoundedCornerShape(8.dp))
             .padding(all = 8.dp),
         contentAlignment = Alignment.Center
@@ -113,23 +145,37 @@ private fun RowScope.InfoLabel(
         SpikeText(
             text,
             color = SpikeTheme.colors.contentOnColorHigh,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
 
 @Composable
 private fun Footer(
-    playersQuantity: Int,
+    players: List<Player>,
     spots: Int,
 ) {
-    Row {
-        SpikeText("$playersQuantity", fontWeight = FontWeight.Bold)
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        SpikeText("${players.size}", fontWeight = FontWeight.Bold)
         SpikeText(
             "/$spots",
             fontWeight = FontWeight.Bold,
             color = SpikeTheme.colors.contentHigh.copy(alpha = .5f)
         )
+        Spacer(Modifier.width(8.dp))
+        Row {
+            players.take(5).forEach { player ->
+                Box(Modifier.size(24.dp).clip(RoundedCornerShape(100))) {
+                    AsyncImage(
+                        modifier = Modifier.matchParentSize(),
+                        model = player.avatarUrl,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -148,15 +194,15 @@ fun SpikeMatchCardPreview() {
                 skillLevel = SkillLevel.BEGINNER,
                 genderPreference = GenderPreference.MIXED,
                 visibility = Visibility.PUBLIC,
-                startAt = Clock.System.now(),
+                startAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
                 durationMinutes = 90,
-                organizer = User(
-                    id = "",
-                    name = "Matheus Carlos",
-                    username = "matc",
+                organizer = Player(
+                    uid = "",
+                    username = "Matheus Carlos",
                     avatarUrl = ""
                 )
             ),
+            strings = PtStrings,
             onClick = {}
         )
     }

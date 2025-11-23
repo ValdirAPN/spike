@@ -102,6 +102,7 @@ private fun Header(user: User) {
         ) {
             if (user.avatarUrl.isNotEmpty()) {
                 AsyncImage(
+                    modifier = Modifier.matchParentSize(),
                     model = user.avatarUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,

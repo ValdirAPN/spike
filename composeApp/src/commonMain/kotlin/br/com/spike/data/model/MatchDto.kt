@@ -7,9 +7,8 @@ data class MatchDto(
     val skillLevel: String = "",
     val genderPreference: String = "",
     val visibility: String = "",
-    val dateMillis: Long = 0,
-    val startAtMillis: String = "",
-    val durationMinutes: Int,
-    val playersIds: List<String> = emptyList(),
-    val organizerId: String,
+    val startAtMillis: Long = 0,
+    val durationMinutes: Int = 0,
+    val players: List<PlayerDto> = emptyList(),
+    val organizer: PlayerDto? = null,
 )

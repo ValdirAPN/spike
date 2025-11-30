@@ -22,7 +22,7 @@ class AuthRepositoryImpl(
         )?.data
 
         return User(
-            id = currentUser.uid,
+            uid = currentUser.uid,
             name = userDocument?.name.orEmpty(),
             username = userDocument?.username.orEmpty(),
             avatarUrl = userDocument?.avatarUrl.orEmpty(),

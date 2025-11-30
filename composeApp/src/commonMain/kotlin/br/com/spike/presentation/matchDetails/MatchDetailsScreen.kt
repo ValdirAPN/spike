@@ -35,6 +35,7 @@ import br.com.spike.domain.utils.toDayOfWeekDayOfMonthAndMonthName
 import br.com.spike.presentation.PtStrings
 import br.com.spike.presentation.Strings
 import br.com.spike.ui.components.SpikeButton
+import br.com.spike.ui.components.SpikeButtonVariant
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIcons
 import br.com.spike.ui.components.SpikeProgress
@@ -76,6 +77,7 @@ data class MatchDetailsScreen(val match: Match) : Screen {
         MatchDetailsContent(
             state = state,
             strings = strings,
+            handleIntent = handleIntent,
             onNavigateBack = navigator::pop
         )
     }
@@ -85,6 +87,7 @@ data class MatchDetailsScreen(val match: Match) : Screen {
 private fun MatchDetailsContent(
     state: MatchDetailsState,
     strings: Strings,
+    handleIntent: (MatchDetailsIntent) -> Unit,
     onNavigateBack: () -> Unit,
 ) = with(state) {
     SpikeScreen(
@@ -96,10 +99,12 @@ private fun MatchDetailsContent(
                     icon = SpikeIcons.Share,
                     action = {}
                 ),
-                secondaryAction = SpikeTopBarTrailing(
-                    icon = SpikeIcons.Pen,
-                    action = {}
-                )
+                secondaryAction = if (state.isOwner) {
+                    SpikeTopBarTrailing(
+                        icon = SpikeIcons.Pen,
+                        action = {}
+                    )
+                } else null
             )
         }
     ) {
@@ -132,7 +137,12 @@ private fun MatchDetailsContent(
                     PlayersCard(users = match.players)
                 }
                 Box(Modifier.padding(all = 16.dp)) {
-                    SpikeButton("Participar", action = {})
+                    SpikeButton(
+                        label = btnLabel,
+                        state = btnState,
+                        variant = if (isParticipating) SpikeButtonVariant.NegativeSolid else SpikeButtonVariant.PrimarySolid,
+                        action = { handleIntent(MatchDetailsIntent.UpdateParticipantStatus) }
+                    )
                 }
             }
         } else {
@@ -409,6 +419,7 @@ private fun MatchDetailsContentPreview() {
                 ),
             ),
             strings = PtStrings,
+            handleIntent = {},
             onNavigateBack = {}
         )
     }

@@ -7,4 +7,6 @@ data class MatchDetailsState(
     val match: Match? = null,
     val btnState: SpikeButtonState = SpikeButtonState.Default,
     val btnLabel: String = "",
+    val isOwner: Boolean = false,
+    val isParticipating: Boolean = false,
 )

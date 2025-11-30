@@ -6,5 +6,7 @@ import br.com.spike.domain.model.Match
 interface MatchRepository {
 
     suspend fun create(match: MatchDto)
+    suspend fun update(id: String, match: MatchDto): Match?
     suspend fun getAll(): List<Match>
+    suspend fun get(id: String): Match?
 }

@@ -1,7 +1,6 @@
 package br.com.spike.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,7 +41,7 @@ fun SpikeButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (state == SpikeButtonState.Loading) {
-                SpikeProgress(size = SpikeProgressSize.Small)
+                SpikeProgress(size = SpikeProgressSize.Small, color = contentColor)
                 Spacer(Modifier.size(8.dp))
             }
             SpikeText(
@@ -61,6 +60,7 @@ private fun handleButtonColors(
     val colors = when (variant) {
         SpikeButtonVariant.PrimarySolid -> SpikeTheme.colors.backgroundBrand to SpikeTheme.colors.contentOnColorHigh
         SpikeButtonVariant.NeutralSubtle -> SpikeTheme.colors.backgroundBody to SpikeTheme.colors.contentHigh
+        SpikeButtonVariant.NegativeSolid -> SpikeTheme.colors.backgroundNegativeSolid to SpikeTheme.colors.contentHigh
     }
 
     return if (state != SpikeButtonState.Default) {
@@ -70,7 +70,8 @@ private fun handleButtonColors(
 
 enum class SpikeButtonVariant {
     PrimarySolid,
-    NeutralSubtle
+    NeutralSubtle,
+    NegativeSolid,
 }
 
 enum class SpikeButtonState {

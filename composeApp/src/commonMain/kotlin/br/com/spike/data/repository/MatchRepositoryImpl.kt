@@ -17,7 +17,7 @@ class MatchRepositoryImpl(
     override suspend fun create(match: MatchDto) {
         val organizer = authRepository.currentUser()
         val organizerAsPlayer = PlayerDto(
-            uid = organizer.id,
+            uid = organizer.uid,
             username = organizer.username,
             avatarUrl = organizer.avatarUrl
         )
@@ -30,8 +30,20 @@ class MatchRepositoryImpl(
         )
     }
 
+    override suspend fun update(id: String, match: MatchDto): Match? {
+        firebaseFirestore.save(collection = MATCH_COLLECTION, document = id, match)
+        return get(id)
+    }
+
     override suspend fun getAll(): List<Match> {
         val matches = firebaseFirestore.read(MATCH_COLLECTION, kClass = MatchDto::class)
         return matches.map { it.data.toDomain(it.id) }
+    }
+
+    override suspend fun get(id: String): Match? {
+        val match = firebaseFirestore.read(MATCH_COLLECTION, document = id, kClass = MatchDto::class)
+        return match?.run {
+            this.data.toDomain(id = this.id)
+        }
     }
 }

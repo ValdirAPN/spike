@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import br.com.spike.ui.theme.SpikeTheme
 
@@ -11,6 +12,7 @@ import br.com.spike.ui.theme.SpikeTheme
 fun SpikeProgress(
     modifier: Modifier = Modifier,
     size: SpikeProgressSize = SpikeProgressSize.Large,
+    color: Color = SpikeTheme.colors.backgroundBrand
 ) {
     val (sizeDp, strokeWidth) = when (size) {
         SpikeProgressSize.Small -> 12.dp to 3.dp
@@ -19,7 +21,7 @@ fun SpikeProgress(
     }
     CircularProgressIndicator(
         modifier = modifier.size(sizeDp),
-        color = SpikeTheme.colors.backgroundBrand,
+        color = color,
         strokeWidth = strokeWidth
     )
 }

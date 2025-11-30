@@ -8,3 +8,9 @@ fun PlayerDto.toDomain(): Player = Player(
     username = username,
     avatarUrl = avatarUrl,
 )
+
+fun Player.toData(): PlayerDto = PlayerDto(
+    uid = uid,
+    username = username,
+    avatarUrl = avatarUrl
+)

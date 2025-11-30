@@ -8,6 +8,7 @@ import br.com.spike.domain.model.SkillLevel
 import br.com.spike.domain.model.TeamSize
 import br.com.spike.domain.model.Visibility
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
@@ -26,4 +27,19 @@ fun MatchDto.toDomain(id: String): Match = Match(
     durationMinutes = durationMinutes,
     players = players.map { it.toDomain() },
     organizer = organizer?.toDomain()
+)
+
+@OptIn(ExperimentalTime::class)
+fun Match.toData(): MatchDto = MatchDto(
+    title = title,
+    spots = spots,
+    teamSize = teamSize.name,
+    courtType = courtType.name,
+    skillLevel = skillLevel.name,
+    genderPreference = genderPreference.name,
+    visibility = visibility.name,
+    startAtMillis = startAt.toInstant(timeZone = TimeZone.currentSystemDefault()).toEpochMilliseconds(),
+    durationMinutes = durationMinutes,
+    players = players.map { it.toData() },
+    organizer = organizer?.toData()
 )

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
-import br.com.spike.presentation.MatchDetailsScreen
+import br.com.spike.presentation.matchDetails.MatchDetailsScreen
 import br.com.spike.presentation.PtStrings
 import br.com.spike.presentation.Strings
 import br.com.spike.ui.components.SpikeIcon
@@ -87,7 +87,8 @@ private fun MatchExplorerContent(
             NoMatches()
         } else {
             LazyColumn(
-                contentPadding = PaddingValues(horizontal = 16.dp)
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(matches) { match ->
                     SpikeMatchCard(

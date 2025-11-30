@@ -8,6 +8,7 @@ data class Match(
     val id: String,
     val title: String,
     val spots: Int,
+    val teamSize: TeamSize,
     val courtType: CourtType,
     val skillLevel: SkillLevel,
     val genderPreference: GenderPreference,
@@ -17,6 +18,18 @@ data class Match(
     val players: List<Player>,
     val organizer: Player?,
 )
+
+enum class TeamSize {
+    TWO_V_TWO, THREE_V_THREE, FOUR_V_FOUR, FIVE_V_FIVE, SIX_V_SIX;
+
+    companion object {
+        fun fromString(value: String): TeamSize {
+            return TeamSize.entries.firstOrNull {
+                it.name.equals(value, ignoreCase = true)
+            } ?: SIX_V_SIX
+        }
+    }
+}
 
 enum class CourtType {
     BEACH, INDOOR;

@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,6 +27,7 @@ import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.Match
 import br.com.spike.domain.model.Player
 import br.com.spike.domain.model.SkillLevel
+import br.com.spike.domain.model.TeamSize
 import br.com.spike.domain.model.Visibility
 import br.com.spike.domain.utils.formatWithDuration
 import br.com.spike.domain.utils.toDayOfWeekDayOfMonthAndMonthName
@@ -36,12 +36,9 @@ import br.com.spike.presentation.Strings
 import br.com.spike.ui.theme.SpikeTheme
 import coil3.compose.AsyncImage
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
 import kotlinx.datetime.format.DayOfWeekNames
 import kotlinx.datetime.format.MonthNames
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @Composable
@@ -70,13 +67,14 @@ fun SpikeMatchCard(
                 DateAndTime(
                     startAt = startAt,
                     duration = durationMinutes,
-                    daysOfWeekNames = strings.daysOfWeekNamesAbbrev,
+                    daysOfWeekNames = strings.daysOfWeekNames,
                     monthNames = strings.monthNames
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     InfoLabel(strings.skillLevel(skillLevel))
                     InfoLabel(strings.genderPreference(genderPreference))
                     InfoLabel(strings.courtType(courtType))
+                    InfoLabel(strings.teamSize(teamSize))
                 }
             }
             Footer(
@@ -136,10 +134,8 @@ private fun RowScope.InfoLabel(
 ) {
     Box(
         modifier = Modifier
-            .weight(1f)
-            .height(40.dp)
-            .background(SpikeTheme.colors.backgroundBrand, shape = RoundedCornerShape(8.dp))
-            .padding(all = 8.dp),
+            .background(SpikeTheme.colors.backgroundBrand, shape = RoundedCornerShape(100))
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         contentAlignment = Alignment.Center
     ) {
         SpikeText(
@@ -147,6 +143,7 @@ private fun RowScope.InfoLabel(
             color = SpikeTheme.colors.contentOnColorHigh,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
+            style = SpikeTheme.typography.labelSmall
         )
     }
 }
@@ -190,11 +187,12 @@ fun SpikeMatchCardPreview() {
                 title = "Vôlei no Ninho",
                 spots = 18,
                 players = emptyList(),
+                teamSize = TeamSize.TWO_V_TWO,
                 courtType = CourtType.BEACH,
                 skillLevel = SkillLevel.BEGINNER,
                 genderPreference = GenderPreference.MIXED,
                 visibility = Visibility.PUBLIC,
-                startAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+                startAt = LocalDateTime(year = 2025, month = 9, day = 30, hour = 15, minute = 30),
                 durationMinutes = 90,
                 organizer = Player(
                     uid = "",

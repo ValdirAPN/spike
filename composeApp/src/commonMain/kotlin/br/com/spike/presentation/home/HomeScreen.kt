@@ -22,7 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.Match
-import br.com.spike.presentation.MatchDetailsScreen
+import br.com.spike.presentation.matchDetails.MatchDetailsScreen
 import br.com.spike.presentation.PtStrings
 import br.com.spike.presentation.Strings
 import br.com.spike.presentation.matchExplorer.MatchExplorer

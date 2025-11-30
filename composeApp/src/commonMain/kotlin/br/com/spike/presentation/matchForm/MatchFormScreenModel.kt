@@ -7,6 +7,7 @@ import br.com.spike.domain.mapper.toMinutes
 import br.com.spike.domain.model.CourtType
 import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.SkillLevel
+import br.com.spike.domain.model.TeamSize
 import br.com.spike.domain.model.Visibility
 import br.com.spike.domain.repository.MatchRepository
 import br.com.spike.ui.components.SpikeButtonState
@@ -38,6 +39,7 @@ class MatchFormScreenModel(
     fun handleIntent(intent: MatchFormIntent) {
         when (intent) {
             is MatchFormIntent.SetDate -> setDate(intent.millis)
+            is MatchFormIntent.SetTeamSize -> setTeamSize(intent.teamSize)
             is MatchFormIntent.SetCourtType -> setCourtType(intent.courtType)
             is MatchFormIntent.SetDuration -> setDuration(intent.hour, intent.minute)
             is MatchFormIntent.SetGenderPreference -> setGenderPreference(intent.genderPreference)
@@ -87,6 +89,12 @@ class MatchFormScreenModel(
         }
     }
 
+    private fun setTeamSize(teamSize: TeamSize) {
+        _state.update { oldState ->
+            oldState.copy(teamSize = teamSize)
+        }
+    }
+
     private fun setCourtType(courtType: CourtType) {
         _state.update { oldState ->
             oldState.copy(courtType = courtType)
@@ -121,7 +129,7 @@ class MatchFormScreenModel(
             with(_state.value) {
                 val startAtMillis = Instant
                     .fromEpochMilliseconds(dateMillis.content ?: 0)
-                    .toLocalDateTime(TimeZone.currentSystemDefault())
+                    .toLocalDateTime(TimeZone.UTC)
                     .run {
                         LocalDateTime(
                             year = this.year,
@@ -129,7 +137,9 @@ class MatchFormScreenModel(
                             day = this.day,
                             hour = startAt.content?.hour ?: 0,
                             minute = startAt.content?.minute ?: 0
-                        ).toInstant(TimeZone.UTC).toEpochMilliseconds()
+                        )
+                            .toInstant(TimeZone.currentSystemDefault())
+                            .toEpochMilliseconds()
                     }
 
                 val matchDto = MatchDto(

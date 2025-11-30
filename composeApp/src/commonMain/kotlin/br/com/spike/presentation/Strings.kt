@@ -3,6 +3,7 @@ package br.com.spike.presentation
 import br.com.spike.domain.model.CourtType
 import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.SkillLevel
+import br.com.spike.domain.model.TeamSize
 import br.com.spike.domain.model.Visibility
 import br.com.spike.presentation.matchForm.MatchFormPtStrings
 import br.com.spike.presentation.matchForm.MatchFormStrings
@@ -11,6 +12,7 @@ import kotlinx.datetime.format.DayOfWeekNames
 import kotlinx.datetime.format.MonthNames
 
 data class Strings(
+    val teamSize: (TeamSize) -> String,
     val courtType: (CourtType) -> String,
     val skillLevel: (SkillLevel) -> String,
     val genderPreference: (GenderPreference) -> String,
@@ -24,6 +26,15 @@ data class Strings(
 
 @LyricistStrings(languageTag = "pt", default = true)
 val PtStrings = Strings(
+    teamSize = { teamSize ->
+        when(teamSize) {
+            TeamSize.TWO_V_TWO -> "2x2"
+            TeamSize.THREE_V_THREE -> "3x3"
+            TeamSize.FOUR_V_FOUR -> "4x4"
+            TeamSize.FIVE_V_FIVE -> "5x5"
+            TeamSize.SIX_V_SIX -> "6x6"
+        }
+    },
     courtType = { courtType ->
         when (courtType) {
             CourtType.BEACH -> "Praia"

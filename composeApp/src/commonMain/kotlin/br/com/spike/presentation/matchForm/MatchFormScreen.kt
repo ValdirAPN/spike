@@ -26,6 +26,7 @@ import br.com.spike.EventEffect
 import br.com.spike.domain.model.CourtType
 import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.SkillLevel
+import br.com.spike.domain.model.TeamSize
 import br.com.spike.domain.model.Visibility
 import br.com.spike.domain.utils.isDigitsOnly
 import br.com.spike.presentation.PtStrings
@@ -158,6 +159,15 @@ private fun MatchFormContent(
                 label = strings.matchFormStrings.durationLabel,
                 onClick = { showDurationModal = true },
                 error = duration.error,
+            )
+            SpikeHorizontalSelector(
+                items = TeamSize.entries,
+                itemToString = { item ->
+                    strings.teamSize(item)
+                },
+                onSelectItem = { teamSize ->
+                    handleIntent(MatchFormIntent.SetTeamSize(teamSize))
+                }
             )
             SpikeHorizontalSelector(
                 items = CourtType.entries,

@@ -3,6 +3,7 @@ package br.com.spike.data.model
 data class MatchDto(
     val title: String = "",
     val spots: Int = 0,
+    val teamSize: String = "",
     val courtType: String = "",
     val skillLevel: String = "",
     val genderPreference: String = "",

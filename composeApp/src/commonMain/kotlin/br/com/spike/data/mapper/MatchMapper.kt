@@ -5,6 +5,7 @@ import br.com.spike.domain.model.CourtType
 import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.Match
 import br.com.spike.domain.model.SkillLevel
+import br.com.spike.domain.model.TeamSize
 import br.com.spike.domain.model.Visibility
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -16,6 +17,7 @@ fun MatchDto.toDomain(id: String): Match = Match(
     id = id,
     title = title,
     spots = spots,
+    teamSize = TeamSize.fromString(teamSize),
     courtType = CourtType.fromString(courtType),
     skillLevel = SkillLevel.fromString(skillLevel),
     genderPreference = GenderPreference.fromString(genderPreference),

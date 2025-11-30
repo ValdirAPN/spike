@@ -1,4 +1,4 @@
-package br.com.spike.presentation
+package br.com.spike.presentation.matchDetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,27 +13,39 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.spike.domain.model.CourtType
 import br.com.spike.domain.model.GenderPreference
 import br.com.spike.domain.model.Match
 import br.com.spike.domain.model.Player
 import br.com.spike.domain.model.SkillLevel
+import br.com.spike.domain.model.TeamSize
 import br.com.spike.domain.model.Visibility
+import br.com.spike.domain.utils.formatWithDuration
+import br.com.spike.domain.utils.toDayOfWeekDayOfMonthAndMonthName
+import br.com.spike.presentation.PtStrings
+import br.com.spike.presentation.Strings
 import br.com.spike.ui.components.SpikeButton
 import br.com.spike.ui.components.SpikeIcon
 import br.com.spike.ui.components.SpikeIcons
+import br.com.spike.ui.components.SpikeProgress
 import br.com.spike.ui.components.SpikeScreen
 import br.com.spike.ui.components.SpikeText
 import br.com.spike.ui.components.SpikeTopBar
 import br.com.spike.ui.components.SpikeTopBarTrailing
 import br.com.spike.ui.theme.SpikeTheme
+import cafe.adriel.lyricist.LocalStrings
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.kodein.rememberScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
@@ -47,8 +59,23 @@ data class MatchDetailsScreen(val match: Match) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val strings = LocalStrings.current
+        val screenModel = rememberScreenModel<MatchDetailsScreenModel>()
+        val state by screenModel.state.collectAsStateWithLifecycle()
+
+        val handleIntent: (MatchDetailsIntent) -> Unit = remember {
+            { intent ->
+                screenModel.handleIntent(intent)
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            handleIntent(MatchDetailsIntent.AssembleData(match))
+        }
+
         MatchDetailsContent(
-            match = match,
+            state = state,
+            strings = strings,
             onNavigateBack = navigator::pop
         )
     }
@@ -56,9 +83,10 @@ data class MatchDetailsScreen(val match: Match) : Screen {
 
 @Composable
 private fun MatchDetailsContent(
-    match: Match,
+    state: MatchDetailsState,
+    strings: Strings,
     onNavigateBack: () -> Unit,
-) {
+) = with(state) {
     SpikeScreen(
         topBar = {
             SpikeTopBar(
@@ -75,30 +103,51 @@ private fun MatchDetailsContent(
             )
         }
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Column(modifier = Modifier.weight(1f)) {
-                SpikeText(
-                    text = match.title.uppercase(),
-                    style = SpikeTheme.typography.headlineMedium,
-                    modifier = Modifier.padding(16.dp)
-                )
-                DateAndTimeCard()
-                LocationCard()
-                Attributes()
-                match.organizer?.let {
-                    OrganizerCard(organizer = it)
+        if (match != null) {
+            Column(modifier = Modifier.fillMaxSize()) {
+                Column(modifier = Modifier.weight(1f)) {
+                    SpikeText(
+                        text = match.title.uppercase(),
+                        style = SpikeTheme.typography.headlineMedium,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                    DateAndTimeCard(
+                        date = match.startAt.date.toDayOfWeekDayOfMonthAndMonthName(
+                            daysOfWeekNames = strings.daysOfWeekNames,
+                            monthNames = strings.monthNames
+                        ),
+                        time = match.startAt.formatWithDuration(match.durationMinutes)
+                    )
+                    LocationCard()
+                    Attributes(
+                        strings = strings,
+                        teamSize = match.teamSize,
+                        courtType = match.courtType,
+                        genderPreference = match.genderPreference,
+                        skillLevel = match.skillLevel,
+                    )
+                    match.organizer?.let {
+                        OrganizerCard(organizer = it)
+                    }
+                    PlayersCard(users = match.players)
                 }
-                PlayersCard(users = match.players)
+                Box(Modifier.padding(all = 16.dp)) {
+                    SpikeButton("Participar", action = {})
+                }
             }
-            Box(Modifier.padding(all = 16.dp)) {
-                SpikeButton("Participar", action = {})
+        } else {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                SpikeProgress()
             }
         }
     }
 }
 
 @Composable
-private fun DateAndTimeCard() {
+private fun DateAndTimeCard(
+    date: String,
+    time: String,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -119,7 +168,7 @@ private fun DateAndTimeCard() {
                 tint = SpikeTheme.colors.contentBrand,
                 modifier = Modifier.width(14.dp),
             )
-            SpikeText("Sábado, 19 de Outubro")
+            SpikeText(date)
         }
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -130,7 +179,7 @@ private fun DateAndTimeCard() {
                 tint = SpikeTheme.colors.contentBrand,
                 modifier = Modifier.width(14.dp),
             )
-            SpikeText("19:00 - 21:00")
+            SpikeText(time)
         }
     }
 }
@@ -176,7 +225,13 @@ private fun LocationCard() {
 }
 
 @Composable
-private fun Attributes() {
+private fun Attributes(
+    strings: Strings,
+    teamSize: TeamSize,
+    skillLevel: SkillLevel,
+    genderPreference: GenderPreference,
+    courtType: CourtType
+) {
     Column(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -184,21 +239,21 @@ private fun Attributes() {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             AttributeCard(
                 "Nível",
-                "Iniciante"
+                strings.skillLevel(skillLevel)
             )
             AttributeCard(
                 "Gênero",
-                "Misto"
+                strings.genderPreference(genderPreference)
             )
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             AttributeCard(
                 "Quadra",
-                "Poliesportiva"
+                strings.courtType(courtType)
             )
             AttributeCard(
                 "Times",
-                "6x6"
+                strings.teamSize(teamSize)
             )
         }
     }
@@ -333,23 +388,27 @@ private fun PlayersCard(users: List<Player>) {
 private fun MatchDetailsContentPreview() {
     SpikeTheme {
         MatchDetailsContent(
-            match = Match(
-                id = "",
-                title = "Vôlei no Ninho",
-                spots = 18,
-                players = emptyList(),
-                courtType = CourtType.BEACH,
-                skillLevel = SkillLevel.BEGINNER,
-                genderPreference = GenderPreference.MIXED,
-                visibility = Visibility.PUBLIC,
-                startAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-                durationMinutes = 90,
-                organizer = Player(
-                    uid = "",
-                    username = "Matheus Carlos",
-                    avatarUrl = ""
-                )
+            state = MatchDetailsState(
+                match = Match(
+                    id = "",
+                    title = "Vôlei no Ninho",
+                    spots = 18,
+                    players = emptyList(),
+                    teamSize = TeamSize.SIX_V_SIX,
+                    courtType = CourtType.BEACH,
+                    skillLevel = SkillLevel.BEGINNER,
+                    genderPreference = GenderPreference.MIXED,
+                    visibility = Visibility.PUBLIC,
+                    startAt = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
+                    durationMinutes = 90,
+                    organizer = Player(
+                        uid = "",
+                        username = "Matheus Carlos",
+                        avatarUrl = ""
+                    )
+                ),
             ),
+            strings = PtStrings,
             onNavigateBack = {}
         )
     }

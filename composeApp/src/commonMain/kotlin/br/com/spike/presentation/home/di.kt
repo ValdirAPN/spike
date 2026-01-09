@@ -14,7 +14,8 @@ val homeModule: DI.Module = DI.Module("home-module") {
 
     bindProvider {
         HomeScreenModel(
-            homeRepository = instance()
+            homeRepository = instance(),
+            matchRepository = instance(),
         )
     }
 }

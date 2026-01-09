@@ -160,15 +160,30 @@ private fun Footer(
             color = SpikeTheme.colors.contentHigh.copy(alpha = .5f)
         )
         Spacer(Modifier.width(8.dp))
-        Row {
-            players.take(5).forEach { player ->
-                Box(Modifier.size(24.dp).clip(RoundedCornerShape(100))) {
-                    AsyncImage(
-                        modifier = Modifier.matchParentSize(),
-                        model = player.avatarUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                    )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy((-10).dp)
+        ) {
+            players.take(5).forEachIndexed { index, player ->
+                Box(
+                    Modifier
+                        .background(
+                            color = SpikeTheme.colors.backgroundBody.copy(alpha = 0.5f),
+                            shape = RoundedCornerShape(100)
+                        )
+                        .size(24.dp)
+                        .clip(shape = RoundedCornerShape(100)),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    if (player.avatarUrl.isNotEmpty()) {
+                        AsyncImage(
+                            modifier = Modifier.matchParentSize(),
+                            model = player.avatarUrl,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                        )
+                    } else {
+                        SpikeIcon(icon = SpikeIcons.User, modifier = Modifier.width(16.dp))
+                    }
                 }
             }
         }

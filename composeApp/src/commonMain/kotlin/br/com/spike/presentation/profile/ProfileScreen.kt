@@ -117,7 +117,7 @@ private fun Header(user: User) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             SpikeText(user.name, style = SpikeTheme.typography.titleMedium)
             SpikeText(
-                "@matc",
+                text = "@${user.username}",
                 style = SpikeTheme.typography.labelSmall,
                 color = SpikeTheme.colors.contentBrand
             )

@@ -11,5 +11,6 @@ data class MatchDto(
     val startAtMillis: Long = 0,
     val durationMinutes: Int = 0,
     val players: List<PlayerDto> = emptyList(),
+    val playerIds: List<String> = emptyList(),
     val organizer: PlayerDto? = null,
 )

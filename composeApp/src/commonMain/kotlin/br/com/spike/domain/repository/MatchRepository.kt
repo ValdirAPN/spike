@@ -9,4 +9,5 @@ interface MatchRepository {
     suspend fun update(id: String, match: MatchDto): Match?
     suspend fun getAll(): List<Match>
     suspend fun get(id: String): Match?
+    suspend fun getUpcomingMatches(): List<Match>
 }

@@ -145,6 +145,7 @@ class MatchFormScreenModel(
                 val matchDto = MatchDto(
                     title = title.content.text.toString(),
                     spots = spots.content.text.toString().toInt(),
+                    teamSize = teamSize.name,
                     courtType = courtType.name,
                     skillLevel = skillLevel.name,
                     genderPreference = genderPreference.name,

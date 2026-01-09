@@ -60,7 +60,9 @@ class MatchDetailsScreenModel(
 
             val updatedMatch = matchRepository.update(
                 id = match.id,
-                match = newMatchData.toData()
+                match = newMatchData
+                    .toData()
+                    .copy(playerIds = newMatchPlayerList.map { it.uid })
             ) ?: throw Exception("An error occurred while trying to update match ${match.id}")
 
             assembleData(updatedMatch)

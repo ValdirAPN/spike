@@ -24,8 +24,28 @@ interface FirebaseFirestore {
         kClass: KClass<T>
     ): FirebaseObject<T>?
 
+    suspend fun <T : Any> readWhereEqualTo(
+        collection: String,
+        field: String,
+        value: String,
+        kClass: KClass<T>
+    ): List<FirebaseObject<T>>
+
+    suspend fun <T : Any> readWhereArrayContains(
+        collection: String,
+        field: String,
+        value: String,
+        kClass: KClass<T>
+    ): List<FirebaseObject<T>>
+
     suspend fun <T : Any> read(
         collection: String,
+        kClass: KClass<T>
+    ): List<FirebaseObject<T>>
+
+    suspend fun <T : Any> read(
+        collection: String,
+        filters: List<FirestoreFilter>,
         kClass: KClass<T>
     ): List<FirebaseObject<T>>
 
